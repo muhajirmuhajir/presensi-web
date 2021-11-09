@@ -14,7 +14,7 @@ class PresensiController extends Controller
      */
     public function index()
     {
-        //
+        return view('pages.presensi.index');
     }
 
     /**
@@ -24,7 +24,7 @@ class PresensiController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.presensi.create');
     }
 
     /**
