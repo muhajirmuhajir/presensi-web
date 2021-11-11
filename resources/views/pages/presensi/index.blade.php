@@ -25,13 +25,16 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($data as $i => $item)
                             <tr>
-                                <td>1</td>
-                                <td>Al Jahiz</td>
-                                <td>Biologi - Sistem Pencernaan</td>
-                                <td>09.00</td>
-                                <td>10.00</td>
+                                <td>{{$i+1}}</td>
+                                <td>{{$item->kelas_name}}</td>
+                                <td>{{$item->topic}}</td>
+                                <td>{{$item->open_date}}</td>
+                                <td>{{$item->close_date}}</td>
                             </tr>
+                            @endforeach
+
                         </tbody>
                     </table>
                 </div>

@@ -16,15 +16,18 @@
                         <div class="md:flex justify-between">
                             <div class="w-full px-2">
                                 <div>
-                                    <x-label for="kelas" :value="__('Kelas')" />
-
-                                    <x-input id="kelas" class="block mt-1 w-full" name="kelas" :value="old('kelas')"
-                                        required autofocus />
+                                    <x-label for="course_id" :value="__('Kelas')" />
+                                    <select name="course_id" id="course_id" class="block mt-1 w-full" required
+                                        autofocus>
+                                        @foreach ($courses as $course)
+                                        <option value="{{$course->id}}">{{$course->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div>
-                                    <x-label for="topik" :value="__('topik')" />
+                                    <x-label for="topic" :value="__('Topik')" />
 
-                                    <x-input id="topik" class="block mt-1 w-full" name="topic" :value="old('topic')"
+                                    <x-input id="topic" class="block mt-1 w-full" name="topic" :value="old('topic')"
                                         required autofocus />
                                 </div>
                                 <div>
@@ -44,16 +47,16 @@
                             </div>
                             <div class="w-full px-2">
                                 <div>
-                                    <x-label for="jam_buka" :value="__('Jam Buka')" />
+                                    <x-label for="open_date" :value="__('Jam Buka')" />
 
-                                    <x-input id="jam_buka" class="block mt-1 w-full" name="jam_buka"
-                                        :value="old('jam_buka')" required autofocus />
+                                    <x-input id="open_date" type="date" class="block mt-1 w-full" name="open_date"
+                                        :value="old('open_date')" required autofocus />
                                 </div>
                                 <div>
-                                    <x-label for="jam_tutup" :value="__('Jam Tutup')" />
+                                    <x-label for="close_date" :value="__('Jam Tutup')" />
 
-                                    <x-input id="jam_tutup" class="block mt-1 w-full" name="jam_tutup"
-                                        :value="old('jam_tutup')" required autofocus />
+                                    <x-input id="close_date" type="date" class="block mt-1 w-full" name="close_date"
+                                        :value="old('close_date')" required autofocus />
                                 </div>
                             </div>
                         </div>
