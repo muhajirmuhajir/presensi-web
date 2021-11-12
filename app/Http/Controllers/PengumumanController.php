@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PengumumanStoreRequest;
+use App\Models\Course;
 use App\Models\Pengumuman;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PengumumanController extends Controller
 {
@@ -14,7 +17,9 @@ class PengumumanController extends Controller
      */
     public function index()
     {
-        //
+        $data = Pengumuman::all();
+
+        return view('pages.pengumuman.index', compact('data'));
     }
 
     /**
@@ -24,18 +29,40 @@ class PengumumanController extends Controller
      */
     public function create()
     {
-        //
+        $courses = Course::join('kelas as k', 'k.id', 'courses.kelas_id')
+        ->where('courses.teacher_id', auth()->user()->id)
+        ->select(
+            'courses.id as id',
+            DB::raw("CONCAT(k.name,' - ',courses.name) as name")
+        )->get();
+
+        return view('pages.pengumuman.create', compact('courses'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\PengumumanStoreRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string',
+            'body' => 'required|string',
+            'thumbnail' => 'required|file|image|max:2048',
+        ]);
+
+        $thumbnail_url = $request->thumbnail->store('thumbnail','public');
+
+        Pengumuman::create([
+            'title' => $request->title,
+            'body' => $request->body,
+            'thumbnail_url' => $thumbnail_url
+        ]);
+
+        return redirect()->route('pengumuman.index');
+
     }
 
     /**
@@ -46,7 +73,7 @@ class PengumumanController extends Controller
      */
     public function show(Pengumuman $pengumuman)
     {
-        //
+        return view('pages.pengumuman.show', compact('pengumuman'));
     }
 
     /**

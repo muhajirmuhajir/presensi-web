@@ -12,17 +12,17 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('presensi.index')" :active="request()->routeIs('presensi.index')">
+                    <x-nav-link :href="route('presensi.index')" :active="request()->routeIs('presensi.*')">
                         {{ __('Presensi') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('course.index')" :active="request()->routeIs('course.index')">
+                    <x-nav-link :href="route('course.index')" :active="request()->routeIs('course.*')">
                         {{ __('Kelas Saya') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('pengumuman.index')" :active="request()->routeIs('pengumuman.*')">
                         {{ __('Pengumuman') }}
                     </x-nav-link>
                 </div>
