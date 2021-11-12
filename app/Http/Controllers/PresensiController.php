@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\Presensi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Events\PresensiCreatedEvent;
 
 class PresensiController extends Controller
 {
@@ -25,8 +26,11 @@ class PresensiController extends Controller
                 DB::raw("CONCAT(k.name, ' - ', c.name) as kelas_name"),
                 'presensis.topic as topic',
                 'presensis.open_date as open_date',
-                'presensis.close_date as close_date'
-            )->get();
+                'presensis.close_date as close_date',
+                'presensis.created_at as created_at',
+                'presensis.updated_at as updated_at',
+            )->latest()
+            ->paginate();
 
         return view('pages.presensi.index', compact('data'));
     }
@@ -63,7 +67,9 @@ class PresensiController extends Controller
             'close_date' => 'required',
         ]);
 
-        Presensi::create($fields);
+        $presensi = Presensi::create($fields);
+
+        event(new PresensiCreatedEvent($presensi));
 
         return redirect()->route('presensi.index');
     }
@@ -76,7 +82,8 @@ class PresensiController extends Controller
      */
     public function show(Presensi $presensi)
     {
-        //
+        $presensi->load('records.student', 'course');
+        return view('pages.presensi.show', compact('presensi'));
     }
 
     /**

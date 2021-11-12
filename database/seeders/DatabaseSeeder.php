@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
                 CourseSeeder::class
             ]
         );
+        \App\Models\User::factory(10)->create(['kelas_id' => 1]);
     }
 }

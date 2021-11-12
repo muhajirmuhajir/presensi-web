@@ -13,4 +13,10 @@ class Kelas extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function students()
+    {
+        return $this->hasMany(User::class, 'kelas_id');
+    }
+
 }

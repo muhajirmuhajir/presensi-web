@@ -14,7 +14,16 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
+        $data = Course::join('kelas as k', 'k.id', 'courses.kelas_id')
+        ->where('courses.teacher_id', auth()->user()->id)
+        ->select(
+            'courses.id as id',
+            'k.name as kelas_name',
+            'courses.name as course_name'
+        )
+        ->get();
+
+        return view('pages.course.index',compact('data'));
     }
 
     /**
@@ -46,7 +55,9 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        //
+        $course->load('kelas', 'presensi')->loadCount('students');
+
+        return view('pages.course.show', compact('course'));
     }
 
     /**

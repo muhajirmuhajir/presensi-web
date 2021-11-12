@@ -11,4 +11,13 @@ class PresensiRecord extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
+
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_PRESENT = 'present';
+    public const STATUS_ABSENT = 'absent';
+
+    public function student()
+    {
+        return $this->belongsTo(User::class, 'student_id');
+    }
 }

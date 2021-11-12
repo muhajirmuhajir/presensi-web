@@ -12,6 +12,23 @@ class Course extends Model
 
     protected $fillable = [
         'teacher_id',
+        'kelas_id',
         'name'
     ];
+
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class);
+    }
+
+    public function presensi()
+    {
+        return $this->hasMany(Presensi::class);
+    }
+
+    public function students()
+    {
+        return $this->hasManyThrough(User::class, Kelas::class, 'id', 'kelas_id');
+    }
+
 }

@@ -15,15 +15,7 @@ class KelasController extends Controller
      */
     public function index()
     {
-        $data = Kelas::join('courses as c', 'c.kelas_id', 'kelas.id')
-        ->where('c.teacher_id', auth()->user()->id)
-        ->select(
-            'kelas.name as kelas_name',
-            'c.name as course_name'
-        )
-        ->get();
 
-        return view('pages.kelas.index',compact('data'));
     }
 
     /**
@@ -55,7 +47,7 @@ class KelasController extends Controller
      */
     public function show(Kelas $kelas)
     {
-        //
+        $kelas->load('presensi');
     }
 
     /**
