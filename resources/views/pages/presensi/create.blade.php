@@ -17,22 +17,21 @@
                             <div class="w-full px-2">
                                 <div>
                                     <x-label for="course_id" :value="__('Kelas')" />
-                                    <select name="course_id" id="course_id" class="block mt-1 w-full" required
+                                    <x-select name="course_id" id="course_id" class="block mt-1 w-full" required
                                         autofocus>
                                         @foreach ($courses as $course)
                                         <option value="{{$course->id}}">{{$course->name}}</option>
                                         @endforeach
-                                    </select>
+                                    </x-select>
                                 </div>
-                                <div>
+                                <div class="mt-4">
                                     <x-label for="topic" :value="__('Topik')" />
 
-                                    <x-input id="topic" class="block mt-1 w-full" name="topic" :value="old('topic')"
-                                        required autofocus />
+                                    <x-input id="topic" type="text" class="block mt-1 w-full" name="topic"
+                                        :value="old('topic')" required autofocus />
                                 </div>
-                                <div>
+                                <div class="mt-4">
                                     <x-label for="question" :value="__('Pertanyaan Assesment')" />
-
                                     <x-textarea name="question" id="question" cols="5" class="block mt-1 w-full">
                                     </x-textarea>
                                 </div>
@@ -49,14 +48,14 @@
                                 <div>
                                     <x-label for="open_date" :value="__('Jam Buka')" />
 
-                                    <x-input id="open_date" type="date" class="block mt-1 w-full" name="open_date"
-                                        :value="old('open_date')" required autofocus />
+                                    <x-input id="open_date" type="datetime-local" class="block mt-1 w-full"
+                                        name="open_date" :value="old('open_date')" required autofocus />
                                 </div>
-                                <div>
+                                <div class="mt-4">
                                     <x-label for="close_date" :value="__('Jam Tutup')" />
 
-                                    <x-input id="close_date" type="date" class="block mt-1 w-full" name="close_date"
-                                        :value="old('close_date')" required autofocus />
+                                    <x-input id="close_date" type="datetime-local" class="block mt-1 w-full"
+                                        name="close_date" :value="old('close_date')" required autofocus />
                                 </div>
                             </div>
                         </div>

@@ -10,35 +10,42 @@
         </div>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    <table class="table w-full">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Kelas</th>
-                                <th>Materi</th>
-                                <th>Jam Buka</th>
-                                <th>Jam Tutup</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $i => $item)
-                            <tr>
-                                <td>{{$i+1}}</td>
-                                <td>{{$item->kelas_name}}</td>
-                                <td>{{$item->topic}}</td>
-                                <td>{{$item->open_date}}</td>
-                                <td>{{$item->close_date}}</td>
-                            </tr>
-                            @endforeach
+    <section class="container mx-auto py-12">
+        <div class="w-full mb-8 overflow-hidden rounded-sm shadow-lg">
+            <div class="w-full overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr
+                            class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-200 uppercase border-b border-gray-600">
+                            <th class="px-4 py-3">No</th>
+                            <th class="px-4 py-3">Kelas</th>
+                            <th class="px-4 py-3">Topik</th>
+                            <th class="px-4 py-3">Jam Buka</th>
+                            <th class="px-4 py-3">Jam Tutup</th>
+                            <th class="px-4 py-3">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white">
+                        @foreach ($data as $i => $item)
+                        <tr class="text-gray-700">
+                            <td class="px-4 py-3 border">{{$i+1}}</td>
+                            <td class="px-4 py-3 text-ms font-semibold border">{{$item->kelas_name}}</td>
+                            <td class="px-4 py-3 text-ms font-semibold border">{{$item->topic}}</td>
+                            <td class="px-4 py-3 text-sm border">{{$item->open_date}}</td>
+                            <td class="px-4 py-3 text-sm border">{{$item->close_date}}</td>
+                            <td class="px-4 py-3 text-sm border">
+                                <a href="{{route('presensi.show', $item->id)}}"
+                                    class="underline hover:text-blue-400 hover:cursor-pointer">Detail</a>
+                            </td>
+                        </tr>
+                        @endforeach
 
-                        </tbody>
-                    </table>
-                </div>
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-4">
+                {{$data->links()}}
             </div>
         </div>
-    </div>
+    </section>
 </x-app-layout>
