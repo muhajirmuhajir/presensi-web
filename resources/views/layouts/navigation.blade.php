@@ -26,6 +26,13 @@
                         {{ __('Pengumuman') }}
                     </x-nav-link>
                 </div>
+                @role(config('enums.roles.bk'))
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('kelas.index')" :active="request()->routeIs('kelas.*')">
+                        {{ __('Kelas') }}
+                    </x-nav-link>
+                </div>
+                @endrole
             </div>
 
             <!-- Settings Dropdown -->

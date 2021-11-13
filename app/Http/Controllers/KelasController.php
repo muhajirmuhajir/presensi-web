@@ -15,7 +15,9 @@ class KelasController extends Controller
      */
     public function index()
     {
+        $data = Kelas::withCount('courses')->paginate();
 
+        return view('pages.kelas.index', compact('data'));
     }
 
     /**
@@ -25,7 +27,7 @@ class KelasController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.kelas.create');
     }
 
     /**
@@ -36,7 +38,11 @@ class KelasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate(['name' => 'required']);
+
+        Kelas::create(['name' => $request->name]);
+
+        return redirect()->route('kelas.index');
     }
 
     /**
@@ -45,9 +51,11 @@ class KelasController extends Controller
      * @param  \App\Models\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function show(Kelas $kelas)
+    public function show($id)
     {
-        $kelas->load('presensi');
+        $kelas = Kelas::with('courses')->withCount('courses', 'students')->findOrFail($id);
+
+        return view('pages.kelas.show',compact('kelas'));
     }
 
     /**

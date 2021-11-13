@@ -19,4 +19,9 @@ class Kelas extends Model
         return $this->hasMany(User::class, 'kelas_id');
     }
 
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
+
 }

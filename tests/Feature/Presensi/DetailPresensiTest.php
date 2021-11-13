@@ -11,33 +11,11 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class CreatePresensiTest extends TestCase
+class DetailPresensiTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_index_presensi_screen_can_be_rendered()
-    {
-        $role = Role::firstOrCreate(['name' => config('enums.roles.teacher')], []);
-        $user = User::factory()->create()->assignRole($role);
-
-        $response = $this->actingAs($user)
-            ->get('/presensi');
-
-        $response->assertStatus(200);
-    }
-
-    public function test_create_presensi_screen_can_be_rendered()
-    {
-        $role = Role::firstOrCreate(['name' => config('enums.roles.teacher')], []);
-        $user = User::factory()->create()->assignRole($role);
-
-        $response = $this->actingAs($user)
-            ->get('/presensi/create');
-
-        $response->assertStatus(200);
-    }
-
-    public function test_presensi_can_create()
+    public function test_detail_presensi_screen_can_be_rendered()
     {
         $role = Role::firstOrCreate(['name' => config('enums.roles.teacher')], []);
         $user = User::factory()->create()->assignRole($role);
@@ -53,8 +31,11 @@ class CreatePresensiTest extends TestCase
                 'close_date' => now()->addHour(1)
             ]);
 
-        $this->assertAuthenticated();
+        $presensi = Presensi::factory()->create(['course_id' => $course->id]);
+        $response = $this->actingAs($user)
+            ->get('/presensi/'. $presensi->id);
 
-        $response->assertRedirect('/presensi');
+        $response->assertStatus(200);
     }
+
 }

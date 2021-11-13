@@ -28,5 +28,6 @@ Route::get('/dashboard', function () {
 Route::resource('presensi', PresensiController::class)->middleware('auth');
 Route::resource('course', CourseController::class)->middleware('auth');
 Route::resource('pengumuman', PengumumanController::class)->middleware('auth');
+Route::resource('kelas', KelasController::class)->middleware('auth');
 
 require __DIR__.'/auth.php';
