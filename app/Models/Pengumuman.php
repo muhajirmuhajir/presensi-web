@@ -13,4 +13,9 @@ class Pengumuman extends Model
     protected $table = 'pengumumans';
 
     protected $guarded = [];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

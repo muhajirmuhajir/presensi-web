@@ -16,7 +16,7 @@
                 <table class="w-full">
                     <thead>
                         <tr
-                            class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-200 uppercase border-b border-gray-600">
+                            class="text-sm font-semibold tracking-wide text-left text-gray-900 bg-gray-200 uppercase border-b border-gray-600">
                             <th class="px-4 py-3">No</th>
                             <th class="px-4 py-3">Kelas</th>
                             <th class="px-4 py-3">Topik</th>

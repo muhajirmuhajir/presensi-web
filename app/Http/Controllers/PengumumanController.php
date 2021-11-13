@@ -51,11 +51,14 @@ class PengumumanController extends Controller
             'title' => 'required|string',
             'body' => 'required|string',
             'thumbnail' => 'required|file|image|max:2048',
+            'course_id' => 'nullable'
         ]);
 
         $thumbnail_url = $request->thumbnail->store('thumbnail','public');
 
         Pengumuman::create([
+            'course_id' => $request->course_id,
+            'user_id' => auth()->user()->id,
             'title' => $request->title,
             'body' => $request->body,
             'thumbnail_url' => $thumbnail_url
@@ -73,6 +76,7 @@ class PengumumanController extends Controller
      */
     public function show(Pengumuman $pengumuman)
     {
+        $pengumuman->load('user');
         return view('pages.pengumuman.show', compact('pengumuman'));
     }
 

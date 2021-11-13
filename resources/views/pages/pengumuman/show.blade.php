@@ -3,7 +3,7 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ $pengumuman->title }}
         </h2>
-        <p class="text-gray-400 text-sm font-light">oleh : {{auth()->user()->name}}</p>
+        <p class="text-gray-400 text-sm font-light">oleh : {{$pengumuman->user->name}}</p>
     </x-slot>
 
     <div class="py-12">
