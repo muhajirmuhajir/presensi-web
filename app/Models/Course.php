@@ -31,4 +31,9 @@ class Course extends Model
         return $this->hasManyThrough(User::class, Kelas::class, 'id', 'kelas_id');
     }
 
+    public function teacher()
+    {
+        return $this->belongsTo(User::class, 'teacher_id');
+    }
+
 }

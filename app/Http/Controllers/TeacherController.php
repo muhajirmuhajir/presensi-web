@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kelas;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
-class KelasController extends Controller
+class TeacherController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,11 @@ class KelasController extends Controller
      */
     public function index()
     {
-        $data = Kelas::withCount('courses')->paginate();
+        $data = User::whereHas('roles', function ($q){
+            $q->where('name', config('enums.roles.teacher') );
+        })->latest()->paginate();
 
-        return view('pages.kelas.index', compact('data'));
+        return view('pages.teacher.index', compact('data'));
     }
 
     /**
@@ -27,7 +29,7 @@ class KelasController extends Controller
      */
     public function create()
     {
-        return view('pages.kelas.create');
+        return view('pages.teacher.create');
     }
 
     /**
@@ -38,33 +40,42 @@ class KelasController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate(['name' => 'required']);
+        $fields = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone_number' => 'required'
+        ]);
 
-        Kelas::create(['name' => $request->name]);
+        $faker = \Faker\Factory::create();
 
-        return redirect()->route('kelas.index');
+        $fields['password'] = Hash::make($faker->word());
+        $fields['opening_status'] = config('enums.opening_status.registered');
+
+        $user = User::create($fields);
+
+        $user->assignRole(config('enums.roles.teacher'));
+
+        return redirect()->route('teacher.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Kelas  $kelas
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $kelas = Kelas::with('courses', 'students')->withCount('courses', 'students')->findOrFail($id);
-
-        return view('pages.kelas.show',compact('kelas'));
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Kelas  $kelas
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Kelas $kelas)
+    public function edit($id)
     {
         //
     }
@@ -73,10 +84,10 @@ class KelasController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Kelas  $kelas
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Kelas $kelas)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -84,10 +95,10 @@ class KelasController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Kelas  $kelas
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Kelas $kelas)
+    public function destroy($id)
     {
         //
     }

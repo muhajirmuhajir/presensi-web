@@ -15,4 +15,9 @@ return [
         'bk' => 'bk',
         'super_admin' => 'super_admin',
     ],
+    'opening_status' => [
+        'registered' => 1,
+        'activated' => 2,
+        'suspended' => 3,
+    ]
 ];

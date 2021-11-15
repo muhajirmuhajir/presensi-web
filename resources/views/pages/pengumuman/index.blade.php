@@ -16,8 +16,8 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="grid md:grid-cols-3 gap-2">
                         @foreach ($data as $item)
-                        <div class="card-container p-4 rounded-sm bg-gray-50">
-                            <img class="w-full" src="{{Storage::url($item->thumbnail_url)}}" alt="">
+                        <div class="card-container p-4 rounded-sm bg-gray-100">
+                            <img class="w-full rounded-md" src="{{Storage::url($item->thumbnail_url)}}" alt="">
                             <div class="card-content">
                                 <h4 class="text-lg"><a href="{{route('pengumuman.show', $item)}}">{{$item->title}}</a>
                                 </h4>

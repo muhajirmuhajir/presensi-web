@@ -16,11 +16,13 @@
                         {{ __('Presensi') }}
                     </x-nav-link>
                 </div>
+                @role(config('enums.roles.teacher'))
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('course.index')" :active="request()->routeIs('course.*')">
                         {{ __('Kelas Saya') }}
                     </x-nav-link>
                 </div>
+                @endrole
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('pengumuman.index')" :active="request()->routeIs('pengumuman.*')">
                         {{ __('Pengumuman') }}
@@ -30,6 +32,24 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('kelas.index')" :active="request()->routeIs('kelas.*')">
                         {{ __('Kelas') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('course.index')" :active="request()->routeIs('course.*')">
+                        {{ __('Mata Pelajaran') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('student.index')" :active="request()->routeIs('student.*')">
+                        {{ __('Siswa') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('teacher.index')" :active="request()->routeIs('teacher.*')">
+                        {{ __('Guru') }}
                     </x-nav-link>
                 </div>
                 @endrole

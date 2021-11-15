@@ -2,13 +2,14 @@
     <x-slot name="header">
         <div class="flex justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Daftar Presensi') }}
+                {{ __('List Guru') }}
             </h2>
-            <form action="{{route('presensi.create')}}">
-                <x-button>Buat Presensi</x-button>
+            <form action="{{route('teacher.create')}}">
+                <x-button>Buat Akun Guru</x-button>
             </form>
         </div>
     </x-slot>
+
 
     <section class="container mx-auto py-12">
         <div class="w-full mb-8 overflow-hidden rounded-sm shadow-lg">
@@ -18,23 +19,22 @@
                         <tr
                             class="text-sm font-semibold tracking-wide text-left text-gray-900 bg-gray-200 uppercase border-b border-gray-600">
                             <th class="px-4 py-3">No</th>
-                            <th class="px-4 py-3">Kelas</th>
-                            <th class="px-4 py-3">Topik</th>
-                            <th class="px-4 py-3">Jam Buka</th>
-                            <th class="px-4 py-3">Jam Tutup</th>
+                            <th class="px-4 py-3">Nama</th>
+                            <th class="px-4 py-3">Email</th>
+                            <th class="px-4 py-3">Status</th>
                             <th class="px-4 py-3">Action</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white">
                         @foreach ($data as $i => $item)
                         <tr class="text-gray-700">
-                            <td class="px-4 py-3 border">{{$i+1}}</td>
-                            <td class="px-4 py-3 text-ms font-semibold border">{{$item->kelas_name}}</td>
-                            <td class="px-4 py-3 text-ms font-semibold border">{{$item->topic}}</td>
-                            <td class="px-4 py-3 text-sm border">{{$item->open_date}}</td>
-                            <td class="px-4 py-3 text-sm border">{{$item->close_date}}</td>
+                            <td class="px-4 py-3 border">{{$data->firstItem()+$i}}</td>
+                            <td class="px-4 py-3 text-ms font-semibold border">{{$item->name}}</td>
+                            <td class="px-4 py-3 text-ms font-semibold border">{{$item->email}}</td>
+                            <td class="px-4 py-3 text-ms font-semibold border">
+                                {{$item->opening_status}}</td>
                             <td class="px-4 py-3 text-sm border">
-                                <a href="{{route('presensi.show', $item->id)}}"
+                                <a href="{{route('teacher.show', $item->id)}}"
                                     class="underline hover:text-blue-400 hover:cursor-pointer">Detail</a>
                             </td>
                         </tr>
@@ -42,9 +42,10 @@
 
                     </tbody>
                 </table>
-            </div>
-            <div class="p-4">
-                {{$data->links()}}
+
+                <div class="mt-4 p-4">
+                    {{$data->links()}}
+                </div>
             </div>
         </div>
     </section>

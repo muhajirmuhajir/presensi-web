@@ -27,7 +27,7 @@
                             value="{{$kelas->students_count}}" disabled />
                     </div>
                     <hr>
-                    <h3 class="text-xl mt-6">List Course</h3>
+                    <h3 class="text-xl mt-6">List Mata Pelajaran</h3>
 
                     <section class="container mx-auto py-12">
                         <div class="w-full mb-8 overflow-hidden rounded-sm shadow-lg">
@@ -49,6 +49,39 @@
                                             </td>
                                             <td class="px-4 py-3 text-ms font-semibold border">
                                                 <a href="{{route('course.show', $item)}}">Detail</a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
+                    <hr>
+                    <h3 class="text-xl mt-6">List Siswa</h3>
+
+                    <section class="container mx-auto py-12">
+                        <div class="w-full mb-8 overflow-hidden rounded-sm shadow-lg">
+                            <div class="w-full">
+                                <table class="w-full">
+                                    <thead>
+                                        <tr
+                                            class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-200 uppercase border-b border-gray-600">
+                                            <th class="px-4 py-3">No</th>
+                                            <th class="px-4 py-3">Nama</th>
+                                            <th class="px-4 py-3">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white">
+                                        @foreach ($kelas->students as $i => $item)
+                                        <tr class="text-gray-700">
+                                            <td class="px-4 py-3 border">{{$i+1}}</td>
+                                            <td class="px-4 py-3 text-ms font-semibold border">{{$item->name}}
+                                            </td>
+                                            <td class="px-4 py-3 text-ms font-semibold border">
+                                                <a href="{{route('student.show', $item)}}">Detail</a>
                                             </td>
                                         </tr>
                                         @endforeach

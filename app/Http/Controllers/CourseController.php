@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Kelas;
 use App\Models\Course;
 use Illuminate\Http\Request;
 
@@ -14,16 +16,29 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $data = Course::join('kelas as k', 'k.id', 'courses.kelas_id')
-        ->where('courses.teacher_id', auth()->user()->id)
-        ->select(
-            'courses.id as id',
-            'k.name as kelas_name',
-            'courses.name as course_name'
-        )
-        ->get();
+        if (auth()->user()->hasRole(config('enums.roles.bk'))) {
+            $data = Course::join('kelas as k', 'k.id', 'courses.kelas_id')
+            ->join('users as u', 'u.id', 'courses.teacher_id')
+            ->select(
+                'courses.id as id',
+                'k.name as kelas_name',
+                'courses.name as course_name',
+                'u.name as teacher_name'
+            )->get();
 
-        return view('pages.course.index',compact('data'));
+        } else {
+            $data = Course::join('kelas as k', 'k.id', 'courses.kelas_id')
+                ->where('courses.teacher_id', auth()->user()->id)
+                ->select(
+                    'courses.id as id',
+                    'k.name as kelas_name',
+                    'courses.name as course_name'
+                )
+                ->get();
+        }
+
+
+        return view('pages.course.index', compact('data'));
     }
 
     /**
@@ -33,7 +48,13 @@ class CourseController extends Controller
      */
     public function create()
     {
-        //
+        $teachers = User::whereHas('roles', function($q){
+            $q->where('name', config('enums.roles.teacher') );
+        })->get();
+
+        $kelas = Kelas::all();
+
+        return view('pages.course.create', compact('teachers', 'kelas'));
     }
 
     /**
@@ -44,7 +65,15 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $fields = $request->validate([
+            'teacher_id' => 'required|exists:users,id',
+            'kelas_id' => 'required|exists:kelas,id',
+            'name' => 'required'
+        ]);
+
+        Course::create($fields);
+
+        return redirect()->route('course.index');
     }
 
     /**
