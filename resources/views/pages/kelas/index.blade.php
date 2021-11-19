@@ -13,7 +13,7 @@
 
     <section class="container mx-auto py-12">
         <div class="w-full mb-8 overflow-hidden rounded-sm shadow-lg">
-            <div class="w-full overflow-x-auto">
+            <div class="w-full ">
                 <table class="w-full">
                     <thead>
                         <tr

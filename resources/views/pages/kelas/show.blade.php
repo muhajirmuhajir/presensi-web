@@ -60,7 +60,10 @@
                     </section>
 
                     <hr>
-                    <h3 class="text-xl mt-6">List Siswa</h3>
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xl mt-6">List Siswa</h3>
+                        <x-button-link href="{{route('kelas.student.add', $kelas->id)}}">Tambah Siswa</x-button-link>
+                    </div>
 
                     <section class="container mx-auto py-12">
                         <div class="w-full mb-8 overflow-hidden rounded-sm shadow-lg">

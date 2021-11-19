@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Kelas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -90,5 +91,28 @@ class KelasController extends Controller
     public function destroy(Kelas $kelas)
     {
         //
+    }
+
+    public function addStudent(Request $request, $id)
+    {
+        $kelas = Kelas::findOrFail($id);
+        $students = User::whereHas('roles', function ($q){
+            $q->where('name', config('enums.roles.student'));
+        })->whereNull('kelas_id')->get();
+
+        return view('pages.kelas.add_student', compact('students', 'kelas'));
+    }
+
+    public function storeStudent(Request $request, $id)
+    {
+        $request->validate([
+            'student_id' => 'required|exists:users,id'
+        ]);
+
+        $kelas = Kelas::findOrFail($id);
+
+        User::findOrFail($request->student_id)->update(['kelas_id' => $kelas->id]);
+
+        return redirect()->back();
     }
 }
