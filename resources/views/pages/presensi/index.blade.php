@@ -4,9 +4,11 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Daftar Presensi') }}
             </h2>
+            @role(config('enums.roles.teacher'))
             <form action="{{route('presensi.create')}}">
                 <x-button>Buat Presensi</x-button>
             </form>
+            @endrole
         </div>
     </x-slot>
 

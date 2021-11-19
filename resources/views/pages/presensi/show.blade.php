@@ -28,8 +28,10 @@
                         </x-textarea>
                     </div>
                     <hr>
-                    <h3 class="text-xl mt-6">Daftar Siswa</h3>
-
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xl mt-6">Daftar Siswa</h3>
+                        <x-button-link href="{{route('presensi.rekap',$presensi->id)}}">Download Rekap</x-button-link>
+                    </div>
 
                     <section class="container mx-auto py-12">
                         <div class="w-full mb-8 overflow-hidden rounded-sm shadow-lg">

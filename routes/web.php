@@ -36,6 +36,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('teacher', TeacherController::class);
     Route::get('kelas/{id}/student/add', [KelasController::class, 'addStudent'])->name('kelas.student.add');
     Route::post('kelas/{id}/student', [KelasController::class, 'storeStudent'])->name('kelas.student.store');
+
+    Route::get('presensi/{id}/rekap', [PresensiController::class, 'rekapPresensi'])->name('presensi.rekap');
 });
 
 require __DIR__ . '/auth.php';

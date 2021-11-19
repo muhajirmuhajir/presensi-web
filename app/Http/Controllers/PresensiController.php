@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\Presensi;
 use Illuminate\Http\Request;
+use App\Models\PresensiRecord;
+use App\Exports\PresensiExport;
 use Illuminate\Support\Facades\DB;
 use App\Events\PresensiCreatedEvent;
 
@@ -18,7 +20,22 @@ class PresensiController extends Controller
     public function index()
     {
 
-        $data = Presensi::join('courses as c', 'c.id', 'presensis.course_id')
+        $data = [];
+        if (auth()->user()->hasRole(config('enums.roles.bk'))) {
+            $data = Presensi::join('courses as c', 'c.id', 'presensis.course_id')
+            ->join('kelas as k', 'k.id', 'c.kelas_id')
+            ->select(
+                'presensis.id as id',
+                DB::raw("CONCAT(k.name, ' - ', c.name) as kelas_name"),
+                'presensis.topic as topic',
+                'presensis.open_date as open_date',
+                'presensis.close_date as close_date',
+                'presensis.created_at as created_at',
+                'presensis.updated_at as updated_at',
+            )->latest()
+            ->paginate();
+        }else{
+            $data = Presensi::join('courses as c', 'c.id', 'presensis.course_id')
             ->join('kelas as k', 'k.id', 'c.kelas_id')
             ->where('c.teacher_id', auth()->user()->id)
             ->select(
@@ -31,6 +48,9 @@ class PresensiController extends Controller
                 'presensis.updated_at as updated_at',
             )->latest()
             ->paginate();
+        }
+
+
 
         return view('pages.presensi.index', compact('data'));
     }
@@ -118,5 +138,10 @@ class PresensiController extends Controller
     public function destroy(Presensi $presensi)
     {
         //
+    }
+
+    public function rekapPresensi(Request $request, $id)
+    {
+        return (new PresensiExport)->withId($id)->download('presensi_rekap.xlsx');
     }
 }
