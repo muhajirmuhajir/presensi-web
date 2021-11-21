@@ -24,7 +24,7 @@ class PengumumanController extends Controller
     public function show(Request $request, $id)
     {
 
-        $pengumuman =  Pengumuman::with('user as teacher')->findOrFail($id);
+        $pengumuman =  Pengumuman::with('teacher')->findOrFail($id);
 
         return ApiResponse::success($pengumuman);
 
