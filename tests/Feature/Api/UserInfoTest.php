@@ -26,6 +26,5 @@ class UserInfoTest extends TestCase
         $response = $this->actingAs($user)->get('/api/user/info');
 
         $response->assertStatus(200);
-        $response->dump();
     }
 }
