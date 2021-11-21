@@ -14,7 +14,7 @@ class UserController extends Controller
     {
         $user_id = auth()->id();
 
-        $user = User::with('kelas as class')->findOrFail($user_id);
+        $user = User::with('class')->findOrFail($user_id);
 
         return ApiResponse::success($user);
     }

@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Kelas::class);
     }
+
+    public function class()
+    {
+        return $this->kelas();
+    }
 }
