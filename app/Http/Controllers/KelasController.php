@@ -54,7 +54,7 @@ class KelasController extends Controller
      */
     public function show($id)
     {
-        $kelas = Kelas::with('courses', 'students')->withCount('courses', 'students')->findOrFail($id);
+        $kelas = Kelas::with('courses.teacher', 'students')->withCount('courses', 'students')->findOrFail($id);
 
         return view('pages.kelas.show',compact('kelas'));
     }

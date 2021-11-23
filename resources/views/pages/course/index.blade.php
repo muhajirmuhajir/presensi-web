@@ -13,7 +13,7 @@
     </x-slot>
 
 
-    <section class="container mx-auto py-12">
+    <section class="container mx-auto md:max-w-6xl py-12">
         <div class="w-full mb-8 overflow-hidden rounded-sm shadow-lg">
             <div class="w-full">
                 <table class="w-full">

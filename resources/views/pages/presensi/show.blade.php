@@ -30,7 +30,9 @@
                     <hr>
                     <div class="flex justify-between items-center">
                         <h3 class="text-xl mt-6">Daftar Siswa</h3>
+                        @role(config('enums.roles.bk'))
                         <x-button-link href="{{route('presensi.rekap',$presensi->id)}}">Download Rekap</x-button-link>
+                        @endrole
                     </div>
 
                     <section class="container mx-auto py-12">

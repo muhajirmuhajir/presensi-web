@@ -38,6 +38,7 @@
                                             class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-200 uppercase border-b border-gray-600">
                                             <th class="px-4 py-3">No</th>
                                             <th class="px-4 py-3">Mata Pelajaran</th>
+                                            <th class="px-4 py-3">Guru</th>
                                             <th class="px-4 py-3">Action</th>
                                         </tr>
                                     </thead>
@@ -46,6 +47,8 @@
                                         <tr class="text-gray-700">
                                             <td class="px-4 py-3 border">{{$i+1}}</td>
                                             <td class="px-4 py-3 text-ms font-semibold border">{{$item->name}}
+                                            </td>
+                                            <td class="px-4 py-3 text-ms font-semibold border">{{$item->teacher->name}}
                                             </td>
                                             <td class="px-4 py-3 text-ms font-semibold border">
                                                 <a href="{{route('course.show', $item)}}">Detail</a>
