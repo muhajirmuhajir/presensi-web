@@ -38,10 +38,12 @@ class PresensiController extends Controller
             ]
         );
 
-        PresensiRecord::findOrFail($id)
-        ->update(['status' => $request->status, 'answer' => $request->answer?? '']);
-
         $user_id = auth()->id();
+
+        PresensiRecord::where('id',$id)
+        ->where('student_id', $user_id)
+        ->update(['status' => $request->status, 'answer' => $request->answer?? '-']);
+
 
         $presensi_record = PresensiRecord::getDetailPresensiByUserId($user_id, $id);
 
