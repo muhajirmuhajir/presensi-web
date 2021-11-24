@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
 
 class StudentController extends Controller
 {
@@ -56,6 +57,8 @@ class StudentController extends Controller
         $user = User::create($fields);
 
         $user->assignRole(config('enums.roles.student'));
+
+        event(new Registered($user));
 
 
         return redirect()->route('student.index');
