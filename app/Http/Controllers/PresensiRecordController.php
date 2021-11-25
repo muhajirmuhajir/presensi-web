@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Presensi;
 use App\Models\PresensiRecord;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,7 @@ class PresensiRecordController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Presensi $presensi)
     {
         //
     }
@@ -22,7 +23,7 @@ class PresensiRecordController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Presensi $presensi)
     {
         //
     }
@@ -33,7 +34,7 @@ class PresensiRecordController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Presensi $presensi)
     {
         //
     }
@@ -44,9 +45,11 @@ class PresensiRecordController extends Controller
      * @param  \App\Models\PresensiRecord  $presensiRecord
      * @return \Illuminate\Http\Response
      */
-    public function show(PresensiRecord $presensiRecord)
+    public function show(Presensi $presensi, $id)
     {
-        //
+        $record = PresensiRecord::with('student')->findOrFail($id);
+        $presensi_status = PresensiRecord::STATUS_ARRAY;
+        return view('pages.presensi.record.show', compact('presensi', 'record', 'presensi_status'));
     }
 
     /**
@@ -55,7 +58,7 @@ class PresensiRecordController extends Controller
      * @param  \App\Models\PresensiRecord  $presensiRecord
      * @return \Illuminate\Http\Response
      */
-    public function edit(PresensiRecord $presensiRecord)
+    public function edit(Presensi $presensi, PresensiRecord $presensiRecord)
     {
         //
     }
@@ -67,9 +70,17 @@ class PresensiRecordController extends Controller
      * @param  \App\Models\PresensiRecord  $presensiRecord
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PresensiRecord $presensiRecord)
+    public function update(Request $request, Presensi $presensi, $id)
     {
-        //
+        $fields = $request->validate([
+            'status' => 'required|string'
+        ]);
+
+        $record = PresensiRecord::findOrFail($id);
+
+        $record->update($fields);
+
+        return redirect()->route('presensi.show', $presensi);
     }
 
     /**
@@ -78,7 +89,7 @@ class PresensiRecordController extends Controller
      * @param  \App\Models\PresensiRecord  $presensiRecord
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PresensiRecord $presensiRecord)
+    public function destroy(Presensi $presensi, PresensiRecord $presensiRecord)
     {
         //
     }

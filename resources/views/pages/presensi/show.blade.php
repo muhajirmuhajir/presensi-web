@@ -54,6 +54,7 @@
                                             <th class="px-4 py-3">No</th>
                                             <th class="px-4 py-3">Nama Siswa</th>
                                             <th class="px-4 py-3">Status</th>
+                                            <th class="px-4 py-3">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white">
@@ -63,6 +64,10 @@
                                             <td class="px-4 py-3 text-ms font-semibold border">{{$item->student->name}}
                                             </td>
                                             <td class="px-4 py-3 text-ms font-semibold border">{{$item->status}}</td>
+                                            <td class="px-4 py-3 text-sm border">
+                                                <a href="{{route('presensi.record.show', [$presensi, $item])}}"
+                                                    class="underline hover:text-blue-400 hover:cursor-pointer">Detail</a>
+                                            </td>
                                         </tr>
                                         @endforeach
 

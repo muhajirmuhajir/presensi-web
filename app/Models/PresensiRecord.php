@@ -17,6 +17,12 @@ class PresensiRecord extends Model
     public const STATUS_PRESENT = 'present';
     public const STATUS_ABSENT = 'absent';
 
+    public const STATUS_ARRAY = [
+        self::STATUS_PRESENT,
+        self::STATUS_ABSENT,
+        self::STATUS_PENDING,
+    ];
+
     public function student()
     {
         return $this->belongsTo(User::class, 'student_id');

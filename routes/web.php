@@ -4,6 +4,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\PresensiController;
+use App\Http\Controllers\PresensiRecordController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,7 @@ Route::get('/dashboard', function () {
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('presensi', PresensiController::class);
+    Route::resource('presensi.record', PresensiRecordController::class);
     Route::resource('course', CourseController::class);
     Route::resource('pengumuman', PengumumanController::class);
     Route::resource('kelas', KelasController::class);
