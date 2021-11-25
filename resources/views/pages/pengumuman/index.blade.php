@@ -21,7 +21,13 @@
                             <div class="card-content">
                                 <h4 class="text-lg"><a href="{{route('pengumuman.show', $item)}}">{{$item->title}}</a>
                                 </h4>
-                                <p class="text-sm text-gray-400 font-light">kelas .</p>
+                                <div class="flex justify-between">
+                                    <p class="text-sm text-gray-400 font-light">kelas .</p>
+                                    @if (auth()->id() == $item->user_id)
+                                    <a href="{{route('pengumuman.edit', $item)}}"
+                                        class="text-sm text-gray-300 underline cursor-pointer">Edit</a>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                         @endforeach
