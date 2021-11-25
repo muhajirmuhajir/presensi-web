@@ -114,7 +114,9 @@ class PresensiController extends Controller
      */
     public function edit(Presensi $presensi)
     {
-        //
+        $presensi->load('course');
+
+        return view('pages.presensi.edit', compact('presensi'));
     }
 
     /**
@@ -126,7 +128,14 @@ class PresensiController extends Controller
      */
     public function update(Request $request, Presensi $presensi)
     {
-        //
+        $fields = $request->validate([
+            'topic' => 'required|string',
+            'question' => 'nullable|string',
+        ]);
+
+        $presensi->update($fields);
+
+        return redirect()->route('presensi.show', $presensi);
     }
 
     /**
@@ -137,7 +146,10 @@ class PresensiController extends Controller
      */
     public function destroy(Presensi $presensi)
     {
-        //
+        $presensi->records()->delete();
+        $presensi->delete();
+
+        return redirect()->route('presensi.index');
     }
 
     public function rekapPresensi(Request $request, $id)

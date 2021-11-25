@@ -27,6 +27,15 @@
                             {{$presensi->question ?? "-"}}
                         </x-textarea>
                     </div>
+                    <div class="my-4 flex gap-4">
+                        <x-button-link href="{{route('presensi.edit', $presensi)}}">Edit</x-button-link>
+                        <form action="{{route('presensi.destroy', $presensi)}}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button onclick="return confirm('Hapus Presensi?')" class="bg-none underline text-sm"
+                                type="submit">Hapus</button>
+                        </form>
+                    </div>
                     <hr>
                     <div class="flex justify-between items-center">
                         <h3 class="text-xl mt-6">Daftar Siswa</h3>
