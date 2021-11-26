@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -36,6 +37,7 @@ class PresensiRecord extends Model
             ->join('users as u', 'u.id', 'c.teacher_id')
             ->join('kelas as k', 'k.id', 'c.kelas_id')
             ->where('presensi_records.student_id', $user_id)
+            ->where('close_date', '>', Carbon::now())
             ->select(
                 'presensi_records.id as id',
                 DB::raw("CONCAT(c.name, ' - ', k.name) as name"),
