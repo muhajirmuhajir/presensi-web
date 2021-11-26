@@ -37,6 +37,7 @@ class UserSeeder extends Seeder
                     $user->assignRole($student);
                 });
             }
+            User::factory()->create(['name' => 'Siswa one', 'email' => 'siswa1@email.com', 'kelas_id' => 1])->assignRole($student);
 
             User::factory()->create(['name' => 'Super Admin', 'email' => 'superadmin@email.com'])->assignRole($super_admin);
         }
