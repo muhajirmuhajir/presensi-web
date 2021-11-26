@@ -25,7 +25,7 @@ class Presensi extends Model
 
     public function fullName()
     {
-        return $this->join('courses as c', 'c.id', 'presensis.id')
+        return $this->join('courses as c', 'c.id', 'presensis.course_id')
         ->join('kelas as k', 'k.id', 'c.kelas_id')
         ->where('c.id', $this->course_id)
         ->select(DB::raw("CONCAT(k.name, ' - ', c.name ) as name"))->first()->name;

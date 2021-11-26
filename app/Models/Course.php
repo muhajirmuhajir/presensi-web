@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -36,4 +37,10 @@ class Course extends Model
         return $this->belongsTo(User::class, 'teacher_id');
     }
 
+    public function fullName()
+    {
+        return self::join('kelas as k', 'k.id', 'courses.kelas_id')
+            ->where('courses.id', $this->id)
+            ->select(DB::raw("CONCAT(k.name, ' - ', courses.name ) as name"))->first()->name;
+    }
 }

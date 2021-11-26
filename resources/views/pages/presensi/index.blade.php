@@ -33,8 +33,11 @@
                             <td class="px-4 py-3 border">{{$i+1}}</td>
                             <td class="px-4 py-3 text-ms font-semibold border">{{$item->kelas_name}}</td>
                             <td class="px-4 py-3 text-ms font-semibold border">{{$item->topic}}</td>
-                            <td class="px-4 py-3 text-sm border">{{$item->open_date}}</td>
-                            <td class="px-4 py-3 text-sm border">{{$item->close_date}}</td>
+                            <td class="px-4 py-3 text-sm border">
+                                {{\Carbon\Carbon::parse($item->open_date)->isoFormat('dddd, D MMMM Y HH:mm')}}</td>
+                            <td class="px-4 py-3 text-sm border">
+                                {{\Carbon\Carbon::parse($item->close_date)->isoFormat('dddd, D MMMM Y HH:mm')}}</td>
+                            </td>
                             <td class="px-4 py-3 text-sm border">
                                 <a href="{{route('presensi.show', $item->id)}}"
                                     class="underline hover:text-blue-400 hover:cursor-pointer">Detail</a>

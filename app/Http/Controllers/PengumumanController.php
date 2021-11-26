@@ -88,7 +88,9 @@ class PengumumanController extends Controller
      */
     public function edit(Pengumuman $pengumuman)
     {
-        //
+        $pengumuman->load('course');
+
+        return view('pages.pengumuman.edit', compact('pengumuman'));
     }
 
     /**
@@ -100,7 +102,21 @@ class PengumumanController extends Controller
      */
     public function update(Request $request, Pengumuman $pengumuman)
     {
-        //
+        $fields  = $request->validate([
+            'title' => 'required|string',
+            'body' => 'required|string',
+            'thumbnail' => 'nullable|file|image|max:2048',
+        ]);
+
+        if($request->hasFile('thumbnail')){
+            $fields['thumbnail_url'] = $request->thumbnail->store('thumbnail','public');
+            unset($fields['thumbnail']);
+        }
+
+        $pengumuman->update($fields);
+
+        return redirect()->route('pengumuman.index');
+
     }
 
     /**
@@ -111,6 +127,8 @@ class PengumumanController extends Controller
      */
     public function destroy(Pengumuman $pengumuman)
     {
-        //
+        $pengumuman->delete();
+
+        return redirect()->route('pengumuman.index');
     }
 }

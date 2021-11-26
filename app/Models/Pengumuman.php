@@ -23,4 +23,9 @@ class Pengumuman extends Model
     {
         return $this->user();
     }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
 }
