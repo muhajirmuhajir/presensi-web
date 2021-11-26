@@ -18,14 +18,13 @@ class CourseController extends Controller
     {
         if (auth()->user()->hasRole(config('enums.roles.bk'))) {
             $data = Course::join('kelas as k', 'k.id', 'courses.kelas_id')
-            ->join('users as u', 'u.id', 'courses.teacher_id')
-            ->select(
-                'courses.id as id',
-                'k.name as kelas_name',
-                'courses.name as course_name',
-                'u.name as teacher_name'
-            )->get();
-
+                ->join('users as u', 'u.id', 'courses.teacher_id')
+                ->select(
+                    'courses.id as id',
+                    'k.name as kelas_name',
+                    'courses.name as course_name',
+                    'u.name as teacher_name'
+                )->get();
         } else {
             $data = Course::join('kelas as k', 'k.id', 'courses.kelas_id')
                 ->where('courses.teacher_id', auth()->user()->id)
@@ -48,8 +47,8 @@ class CourseController extends Controller
      */
     public function create()
     {
-        $teachers = User::whereHas('roles', function($q){
-            $q->where('name', config('enums.roles.teacher') );
+        $teachers = User::whereHas('roles', function ($q) {
+            $q->where('name', config('enums.roles.teacher'));
         })->get();
 
         $kelas = Kelas::all();
@@ -84,7 +83,7 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        $course->load('kelas', 'presensi')->loadCount('students');
+        $course->load('kelas', 'presensi','teacher')->loadCount('students');
 
         return view('pages.course.show', compact('course'));
     }
@@ -97,7 +96,13 @@ class CourseController extends Controller
      */
     public function edit(Course $course)
     {
-        //
+        $teachers = User::whereHas('roles', function ($q) {
+            $q->where('name', config('enums.roles.teacher'));
+        })->get();
+
+        $kelas = Kelas::all();
+
+        return view('pages.course.edit', compact('course', 'teachers', 'kelas'));
     }
 
     /**
@@ -109,7 +114,15 @@ class CourseController extends Controller
      */
     public function update(Request $request, Course $course)
     {
-        //
+        $fields = $request->validate([
+            'teacher_id' => 'required|exists:users,id',
+            'kelas_id' => 'required|exists:kelas,id',
+            'name' => 'required'
+        ]);
+
+        $course->update($fields);
+
+        return redirect()->route('course.show', $course);
     }
 
     /**
@@ -120,6 +133,9 @@ class CourseController extends Controller
      */
     public function destroy(Course $course)
     {
-        //
+        $course->presensi()->delete();
+        $course->delete();
+
+        return redirect()->route('course.index');
     }
 }
