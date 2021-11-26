@@ -41,6 +41,7 @@
                             value="{{ \Carbon\Carbon::parse($presensi->close_date)->format('Y-m-d\TH:i')}}" required
                             disabled />
                     </div>
+                    @role(config('enums.roles.teacher'))
                     <div class="my-4 flex gap-4">
                         <x-button-link href="{{route('presensi.edit', $presensi)}}">Edit</x-button-link>
                         <form action="{{route('presensi.destroy', $presensi)}}" method="post">
@@ -50,11 +51,14 @@
                                 type="submit">Hapus</button>
                         </form>
                     </div>
+                    @endrole
                     <hr>
                     <div class="flex justify-between items-center">
                         <h3 class="text-xl mt-6">Daftar Siswa</h3>
                         @role(config('enums.roles.bk'))
+                        @if (\Carbon\Carbon::parse($presensi->close_date)->isPast())
                         <x-button-link href="{{route('presensi.rekap',$presensi->id)}}">Download Rekap</x-button-link>
+                        @endif
                         @endrole
                     </div>
 
