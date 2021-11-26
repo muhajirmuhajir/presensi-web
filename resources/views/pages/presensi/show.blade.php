@@ -27,6 +27,20 @@
                             {{$presensi->question ?? "-"}}
                         </x-textarea>
                     </div>
+                    <div class="mt-4">
+                        <x-label for="open_date" :value="__('Jam Buka')" />
+
+                        <x-input id="open_date" type="datetime-local" class="block mt-1 w-full" name="open_date"
+                            value="{{ \Carbon\Carbon::parse($presensi->open_date)->format('Y-m-d\TH:i')}}" required
+                            disabled />
+                    </div>
+                    <div class="mt-4">
+                        <x-label for="close_date" :value="__('Jam Tutup')" />
+
+                        <x-input id="close_date" type="datetime-local" class="block mt-1 w-full" name="close_date"
+                            value="{{ \Carbon\Carbon::parse($presensi->close_date)->format('Y-m-d\TH:i')}}" required
+                            disabled />
+                    </div>
                     <div class="my-4 flex gap-4">
                         <x-button-link href="{{route('presensi.edit', $presensi)}}">Edit</x-button-link>
                         <form action="{{route('presensi.destroy', $presensi)}}" method="post">
