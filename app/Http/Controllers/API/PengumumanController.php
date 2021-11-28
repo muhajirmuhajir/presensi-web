@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Helpers\ApiResponse;
 use App\Models\Pengumuman;
+use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class PengumumanController extends Controller
 {
@@ -13,10 +14,19 @@ class PengumumanController extends Controller
     {
         $kelas_id = auth()->user()->kelas_id ?? 0;
 
-        $pengumuman =  Pengumuman::whereIn('course_id', function ($q) use($kelas_id){
+        $pengumuman =  Pengumuman::whereIn('course_id', function ($q) use ($kelas_id) {
             return $q->select('id')->from('courses')->where('kelas_id', $kelas_id);
         })->select('id', 'title', 'body as content', 'thumbnail_url as thumbnail')
-        ->get();
+            ->get();
+
+        $pengumuman = $pengumuman->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'title' => $item->title,
+                'content' => $item->content,
+                'thumbnail' => url(Storage::url($item->thumbnail))
+            ];
+        });
 
         return ApiResponse::success($pengumuman);
     }
@@ -25,8 +35,9 @@ class PengumumanController extends Controller
     {
 
         $pengumuman =  Pengumuman::with('teacher')->findOrFail($id);
+        $pengumuman->thumbnail = url(Storage::url($pengumuman->thumbnail_url));
+        $pengumuman->content = $pengumuman->body;
 
         return ApiResponse::success($pengumuman);
-
     }
 }
