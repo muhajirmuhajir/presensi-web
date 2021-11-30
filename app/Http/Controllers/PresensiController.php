@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Course;
 use App\Models\Presensi;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\PresensiRecord;
 use App\Exports\PresensiExport;
@@ -23,31 +25,31 @@ class PresensiController extends Controller
         $data = [];
         if (auth()->user()->hasRole(config('enums.roles.bk'))) {
             $data = Presensi::join('courses as c', 'c.id', 'presensis.course_id')
-            ->join('kelas as k', 'k.id', 'c.kelas_id')
-            ->select(
-                'presensis.id as id',
-                DB::raw("CONCAT(k.name, ' - ', c.name) as kelas_name"),
-                'presensis.topic as topic',
-                'presensis.open_date as open_date',
-                'presensis.close_date as close_date',
-                'presensis.created_at as created_at',
-                'presensis.updated_at as updated_at',
-            )->latest()
-            ->paginate();
-        }else{
+                ->join('kelas as k', 'k.id', 'c.kelas_id')
+                ->select(
+                    'presensis.id as id',
+                    DB::raw("CONCAT(k.name, ' - ', c.name) as kelas_name"),
+                    'presensis.topic as topic',
+                    'presensis.open_date as open_date',
+                    'presensis.close_date as close_date',
+                    'presensis.created_at as created_at',
+                    'presensis.updated_at as updated_at',
+                )->latest()
+                ->paginate();
+        } else {
             $data = Presensi::join('courses as c', 'c.id', 'presensis.course_id')
-            ->join('kelas as k', 'k.id', 'c.kelas_id')
-            ->where('c.teacher_id', auth()->user()->id)
-            ->select(
-                'presensis.id as id',
-                DB::raw("CONCAT(k.name, ' - ', c.name) as kelas_name"),
-                'presensis.topic as topic',
-                'presensis.open_date as open_date',
-                'presensis.close_date as close_date',
-                'presensis.created_at as created_at',
-                'presensis.updated_at as updated_at',
-            )->latest()
-            ->paginate();
+                ->join('kelas as k', 'k.id', 'c.kelas_id')
+                ->where('c.teacher_id', auth()->user()->id)
+                ->select(
+                    'presensis.id as id',
+                    DB::raw("CONCAT(k.name, ' - ', c.name) as kelas_name"),
+                    'presensis.topic as topic',
+                    'presensis.open_date as open_date',
+                    'presensis.close_date as close_date',
+                    'presensis.created_at as created_at',
+                    'presensis.updated_at as updated_at',
+                )->latest()
+                ->paginate();
         }
 
 
@@ -63,11 +65,11 @@ class PresensiController extends Controller
     public function create()
     {
         $courses = Course::join('kelas as k', 'k.id', 'courses.kelas_id')
-        ->where('courses.teacher_id', auth()->user()->id)
-        ->select(
-            'courses.id as id',
-            DB::raw("CONCAT(k.name,' - ',courses.name) as name")
-        )->get();
+            ->where('courses.teacher_id', auth()->user()->id)
+            ->select(
+                'courses.id as id',
+                DB::raw("CONCAT(k.name,' - ',courses.name) as name")
+            )->get();
         return view('pages.presensi.create', compact('courses'));
     }
 
@@ -154,6 +156,9 @@ class PresensiController extends Controller
 
     public function rekapPresensi(Request $request, $id)
     {
-        return (new PresensiExport)->withId($id)->download('presensi_rekap.xlsx');
+        $presensi = Presensi::findOrFail($id);
+        $kelas_name = $presensi->fullName();
+        $filename = Str::upper(Str::slug($kelas_name)) .'_'. Carbon::parse($presensi->open_at)->isoFormat('D-MM-Y');
+        return (new PresensiExport)->withId($id)->download($filename . '.xlsx');
     }
 }
