@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Kelas;
+use App\Models\Course;
+use App\Models\Presensi;
 use Illuminate\Http\Request;
+use App\Models\PresensiRecord;
 use Illuminate\Support\Facades\DB;
 
 class KelasController extends Controller
@@ -56,7 +59,7 @@ class KelasController extends Controller
     {
         $kelas = Kelas::with('courses.teacher', 'students')->withCount('courses', 'students')->findOrFail($id);
 
-        return view('pages.kelas.show',compact('kelas'));
+        return view('pages.kelas.show', compact('kelas'));
     }
 
     /**
@@ -65,9 +68,10 @@ class KelasController extends Controller
      * @param  \App\Models\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function edit(Kelas $kelas)
+    public function edit($id)
     {
-        //
+        $kelas = Kelas::findOrFail($id);
+        return view('pages.kelas.edit', compact('kelas'));
     }
 
     /**
@@ -77,9 +81,17 @@ class KelasController extends Controller
      * @param  \App\Models\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Kelas $kelas)
+    public function update(Request $request, $id)
     {
-        //
+        $kelas = Kelas::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string'
+        ]);
+
+        $kelas->update(['name' => $request->name]);
+
+        return redirect()->route('kelas.show', $kelas);
     }
 
     /**
@@ -88,15 +100,30 @@ class KelasController extends Controller
      * @param  \App\Models\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Kelas $kelas)
+    public function destroy($id)
     {
-        //
+        $kelas = Kelas::findOrFail($id);
+
+        User::where('kelas_id', $id)->update(['kelas_id' => null]);
+
+        $course_ids = Course::where('kelas_id', $id)->pluck('id');
+        $presensi_ids = Presensi::whereIn('course_id', $course_ids)->pluck('id');
+
+        PresensiRecord::whereIn('presensi_id', $presensi_ids)->delete();
+
+        Course::whereIn('id', $course_ids)->delete();
+
+        Presensi::whereIn('id', $presensi_ids)->delete();
+
+        $kelas->delete();
+
+        return redirect()->route('kelas.index');
     }
 
     public function addStudent(Request $request, $id)
     {
         $kelas = Kelas::findOrFail($id);
-        $students = User::whereHas('roles', function ($q){
+        $students = User::whereHas('roles', function ($q) {
             $q->where('name', config('enums.roles.student'));
         })->whereNull('kelas_id')->get();
 
