@@ -26,6 +26,18 @@
                         <x-input id="student" type="text" class="block mt-1 w-full" name="student"
                             value="{{$kelas->students_count}}" disabled />
                     </div>
+                    @role(config('enums.roles.bk'))
+                    <div class="my-4 flex gap-4 items-center">
+                        <x-button-link href="{{route('kelas.edit', $kelas)}}">Edit</x-button-link>
+                        <form action="{{route('kelas.destroy', $kelas)}}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button
+                                onclick="return confirm('Hapus Kelas akan menghapus semua mata pelajaran termasuk riwayat presensi, Lanjutkan?')"
+                                class="bg-none underline text-sm" type="submit">Hapus</button>
+                        </form>
+                    </div>
+                    @endrole
                     <hr>
                     <h3 class="text-xl mt-6">List Mata Pelajaran</h3>
 
