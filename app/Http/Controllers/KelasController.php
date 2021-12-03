@@ -142,4 +142,12 @@ class KelasController extends Controller
 
         return redirect()->back();
     }
+
+    public function destroyStudent($id, $student_id)
+    {
+        $student = User::findOrFail($student_id);
+        $student->update(['kelas_id' => null]);
+
+        return redirect()->back();
+    }
 }
