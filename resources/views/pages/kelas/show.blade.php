@@ -99,7 +99,16 @@
                                             <td class="px-4 py-3 text-ms font-semibold border">{{$item->name}}
                                             </td>
                                             <td class="px-4 py-3 text-ms font-semibold border">
-                                                <a href="{{route('student.show', $item)}}">Detail</a>
+                                                <div class="flex gap-4">
+                                                    <a href="{{route('student.show', $item)}}">Detail</a>
+                                                    <form action="{{route('kelas.student.destroy',[$kelas,$item])}}"
+                                                        method="post">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button onclick="return confirm('Hapus Siswa dari kelas?')"
+                                                            type="submit">Hapus</button>
+                                                    </form>
+                                                </div>
                                             </td>
                                         </tr>
                                         @endforeach

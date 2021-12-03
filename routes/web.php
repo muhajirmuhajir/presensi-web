@@ -38,6 +38,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('teacher', TeacherController::class);
     Route::get('kelas/{id}/student/add', [KelasController::class, 'addStudent'])->name('kelas.student.add');
     Route::post('kelas/{id}/student', [KelasController::class, 'storeStudent'])->name('kelas.student.store');
+    Route::delete('kelas/{id}/student/{student_id}', [KelasController::class, 'destroyStudent'])->name('kelas.student.destroy');
 
     Route::get('presensi/{id}/rekap', [PresensiController::class, 'rekapPresensi'])->name('presensi.rekap');
 });
