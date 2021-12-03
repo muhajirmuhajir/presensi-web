@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="absolute bottom-5 right-5">
-                    <form action="{{route('student.destroy',$teacher )}}" method="post">
+                    <form action="{{route('teacher.destroy',$teacher )}}" method="post">
                         @csrf
                         @method('DELETE')
                         <button onclick="return confirm('Hapus Akun Guru?')"
