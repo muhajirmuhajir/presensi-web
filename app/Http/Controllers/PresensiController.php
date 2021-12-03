@@ -85,8 +85,8 @@ class PresensiController extends Controller
             'course_id' => 'required|exists:courses,id',
             'topic' => 'required',
             'question' => 'nullable',
-            'open_date' => 'required',
-            'close_date' => 'required',
+            'open_date' => 'required|date',
+            'close_date' => 'required|date|after:open_date',
         ]);
 
         $presensi = Presensi::create($fields);
@@ -133,6 +133,8 @@ class PresensiController extends Controller
         $fields = $request->validate([
             'topic' => 'required|string',
             'question' => 'nullable|string',
+            'open_date' => 'required|date',
+            'close_date' => 'required|date|after:open_date',
         ]);
 
         $presensi->update($fields);
