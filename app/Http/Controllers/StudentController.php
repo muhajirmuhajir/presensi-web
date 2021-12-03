@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserCreateEvent;
 use App\Models\PresensiRecord;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -59,7 +60,7 @@ class StudentController extends Controller
 
         $user->assignRole(config('enums.roles.student'));
 
-        event(new Registered($user));
+        event(new UserCreateEvent($user));
 
 
         return redirect()->route('student.index');

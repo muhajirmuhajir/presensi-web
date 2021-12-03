@@ -1,14 +1,14 @@
 <?php
 
-use App\Http\Controllers\CourseController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\KelasController;
-use App\Http\Controllers\PengumumanController;
-use App\Http\Controllers\PresensiController;
-use App\Http\Controllers\PresensiRecordController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
-use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PresensiController;
+use App\Http\Controllers\PengumumanController;
+use App\Http\Controllers\PresensiRecordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,5 +48,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('profile', [UserController::class, 'show'])->name('profile.show');
     Route::put('profile', [UserController::class, 'update'])->name('profile.update');
 });
+
+Route::get('user/activation/{token}', [UserController::class, 'activate'])->name('account.activate');
+Route::post('user/activation/{token}', [UserController::class, 'verifiy'])->name('account.verifiy');
+
+Route::get('activation/success', [UserController::class, 'success'])->name('activation.success');
 
 require __DIR__ . '/auth.php';

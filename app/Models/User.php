@@ -31,7 +31,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'image_url',
         'identity_number',
         'phone_number',
-        'opening_status'
+        'opening_status',
+        'activation_token',
+        'activation_expired_at'
     ];
 
     /**
