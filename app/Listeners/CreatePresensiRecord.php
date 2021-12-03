@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use App\Models\PresensiRecord;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Log;
 
 class CreatePresensiRecord
 {
@@ -58,7 +59,7 @@ class CreatePresensiRecord
 
         if($kelas){
             $topic = Str::slug($kelas->name);
-
+            Log::info($topic);
             $fcm = new Fcm();
             $fcm->withTopic($topic);
             $fcm->withNotification('Presensi Baru', $kelas->name . ' telah menerbitkan presensi baru');
