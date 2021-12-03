@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Course;
 use App\Models\User;
+use App\Models\Course;
 use Illuminate\Http\Request;
+use App\Events\UserCreateEvent;
 use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
@@ -53,6 +54,8 @@ class TeacherController extends Controller
         $fields['opening_status'] = config('enums.opening_status.registered');
 
         $user = User::create($fields);
+
+        event(new UserCreateEvent($user));
 
         $user->assignRole(config('enums.roles.teacher'));
 

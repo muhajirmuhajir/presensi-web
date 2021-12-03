@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Events\PresensiCreatedEvent;
+use App\Events\UserCreateEvent;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use App\Listeners\CreatePresensiRecord;
+use App\Listeners\SendEmailActivation;
 use App\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -22,7 +24,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         PresensiCreatedEvent::class => [
             CreatePresensiRecord::class
-        ]
+        ],
+        UserCreateEvent::class => [
+            SendEmailActivation::class
+        ],
     ];
 
     /**
