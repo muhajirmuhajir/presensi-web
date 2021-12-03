@@ -89,8 +89,11 @@ class PresensiRecordController extends Controller
      * @param  \App\Models\PresensiRecord  $presensiRecord
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Presensi $presensi, PresensiRecord $presensiRecord)
+    public function destroy(Presensi $presensi, $id)
     {
-        //
+        $record = PresensiRecord::findOrFail($id);
+        $record->delete();
+
+        return redirect()->route('presensi.show', $presensi);
     }
 }

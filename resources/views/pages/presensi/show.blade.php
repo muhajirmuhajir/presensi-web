@@ -63,6 +63,13 @@
                     </div>
 
                     <section class="container mx-auto py-12">
+                        <div class="flex gap-10 mb-4 text-gray-600">
+                            <p>Belum presensi : {{$presensi->records->where('status', 1)->count()}}</p>
+                            <p>Hadir : {{$presensi->records->where('status', 2)->count()}}</p>
+                            <p>Izin : {{$presensi->records->where('status', 3)->count()}}</p>
+                            <p>Sakit : {{$presensi->records->where('status', 4)->count()}}</p>
+                            <p>Alpa : {{$presensi->records->where('status', 5)->count()}}</p>
+                        </div>
                         <div class="w-full mb-8 overflow-hidden rounded-sm shadow-lg">
                             <div class="w-full">
                                 <table class="w-full">
@@ -81,7 +88,8 @@
                                             <td class="px-4 py-3 border">{{$i+1}}</td>
                                             <td class="px-4 py-3 text-ms font-semibold border">{{$item->student->name}}
                                             </td>
-                                            <td class="px-4 py-3 text-ms font-semibold border">{{$item->status}}</td>
+                                            <td class="px-4 py-3 text-ms font-semibold border">
+                                                {{$item->statusPresensi()}}</td>
                                             <td class="px-4 py-3 text-sm border">
                                                 <a href="{{route('presensi.record.show', [$presensi, $item])}}"
                                                     class="underline hover:text-blue-400 hover:cursor-pointer">Detail</a>
