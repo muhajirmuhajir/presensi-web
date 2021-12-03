@@ -2,10 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Models\PresensiRecord;
 use App\Models\User;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Models\Kelas;
+use App\Supports\Fcm;
+use Illuminate\Support\Str;
+use App\Models\PresensiRecord;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class CreatePresensiRecord
 {
@@ -44,6 +47,22 @@ class CreatePresensiRecord
                     'status' => PresensiRecord::STATUS_PENDING
                 ]
             );
+        }
+
+        $kelas = Kelas::where('id', function ($q) use ($presensi){
+            return $q->select('kelas_id')
+            ->from('courses')
+            ->where('id', $presensi->course_id)
+            ->first();
+        })->first();
+
+        if($kelas){
+            $topic = Str::slug($kelas->name);
+
+            $fcm = new Fcm();
+            $fcm->withTopic($topic);
+            $fcm->withNotification('Presensi Baru', $kelas->name . ' telah menerbitkan presensi baru');
+            $fcm->sendMessage();
         }
 
     }
