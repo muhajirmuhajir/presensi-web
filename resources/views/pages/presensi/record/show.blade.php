@@ -18,7 +18,7 @@
                             <x-label for="name" :value="__('Nama Siswa')" />
 
                             <x-input id="name" type="text" class="block mt-1 w-full" name="name"
-                                value="{{$record->student->name}}" required autofocus disabled />
+                                value="{{$record->student->name ?? '-'}}" required autofocus disabled />
                         </div>
                         <div class="mt-4">
                             <x-label for="status" :value="__('Status Presensi')" />

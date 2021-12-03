@@ -34,7 +34,7 @@
                             <td class="px-4 py-3 text-ms font-semibold border">
                                 {{$item->kelas? $item->kelas->name : "-"}}</td>
                             <td class="px-4 py-3 text-sm border">
-                                <a href="{{route('student.show', $item->id)}}"
+                                <a href="{{route('student.edit', $item->id)}}"
                                     class="underline hover:text-blue-400 hover:cursor-pointer">Detail</a>
                             </td>
                         </tr>

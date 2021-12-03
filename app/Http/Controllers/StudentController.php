@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PresensiRecord;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -44,7 +45,7 @@ class StudentController extends Controller
     {
         $fields = $request->validate([
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'identity_number' => 'required',
             'phone_number' => 'required'
         ]);
@@ -83,7 +84,9 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $student = User::findOrFail($id);
+
+        return view('pages.student.edit', compact('student'));
     }
 
     /**
@@ -95,7 +98,17 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $fields = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'identity_number' => 'required',
+            'phone_number' => 'required'
+        ]);
+
+        $student = User::findOrFail($id);
+        $student->update($fields);
+
+        return back();
     }
 
     /**
@@ -106,6 +119,11 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $student = User::findOrFail($id);
+        $student->delete();
+
+        PresensiRecord::where('student_id', $student->id)->delete();
+
+        return redirect()->route('student.index');
     }
 }

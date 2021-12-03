@@ -86,7 +86,8 @@
                                         @foreach ($presensi->records as $i => $item)
                                         <tr class="text-gray-700">
                                             <td class="px-4 py-3 border">{{$i+1}}</td>
-                                            <td class="px-4 py-3 text-ms font-semibold border">{{$item->student->name}}
+                                            <td class="px-4 py-3 text-ms font-semibold border">
+                                                {{$item->student->name ?? '-'}}
                                             </td>
                                             <td class="px-4 py-3 text-ms font-semibold border">
                                                 {{$item->statusPresensi()}}</td>
