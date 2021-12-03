@@ -14,6 +14,10 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
 
+    public const STATUS_REGISTERED = 1;
+    public const STATUS_ACTIVATED = 2;
+    public const STATUS_SUSPENDED = 3;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -48,6 +52,20 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getStatus(): string
+    {
+        switch ($this->opening_status) {
+            case self::STATUS_REGISTERED:
+                return 'Aktivasi';
+            case self::STATUS_ACTIVATED:
+                return 'Aktif';
+            case self::STATUS_SUSPENDED:
+                return 'Ditangguhkan';
+            default:
+                return $this->opening_status;
+        }
+    }
 
     public function kelas()
     {

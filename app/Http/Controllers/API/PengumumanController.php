@@ -16,7 +16,9 @@ class PengumumanController extends Controller
 
         $pengumuman =  Pengumuman::whereIn('course_id', function ($q) use ($kelas_id) {
             return $q->select('id')->from('courses')->where('kelas_id', $kelas_id);
-        })->select('id', 'title', 'body as content', 'thumbnail_url as thumbnail')
+        })
+            ->orWhereNull('course_id')
+            ->select('id', 'title', 'body as content', 'thumbnail_url as thumbnail')
             ->get();
 
         $pengumuman = $pengumuman->map(function ($item) {

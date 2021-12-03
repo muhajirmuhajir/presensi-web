@@ -7,6 +7,7 @@ use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\PresensiRecordController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,9 +21,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-});
+// Route::get('/', function () {
+//     return view('auth.login');
+// });
+
+Route::redirect('/', '/login', 301);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -41,6 +44,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('kelas/{id}/student/{student_id}', [KelasController::class, 'destroyStudent'])->name('kelas.student.destroy');
 
     Route::get('presensi/{id}/rekap', [PresensiController::class, 'rekapPresensi'])->name('presensi.rekap');
+
+    Route::get('profile', [UserController::class, 'show'])->name('profile.show');
+    Route::put('profile', [UserController::class, 'update'])->name('profile.update');
 });
 
 require __DIR__ . '/auth.php';

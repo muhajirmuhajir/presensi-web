@@ -32,7 +32,7 @@
                             <td class="px-4 py-3 text-ms font-semibold border">{{$item->name}}</td>
                             <td class="px-4 py-3 text-ms font-semibold border">{{$item->email}}</td>
                             <td class="px-4 py-3 text-ms font-semibold border">
-                                {{$item->opening_status}}</td>
+                                {{$item->getStatus()}}</td>
                             <td class="px-4 py-3 text-sm border">
                                 <a href="{{route('teacher.edit', $item->id)}}"
                                     class="underline hover:text-blue-400 hover:cursor-pointer">Detail</a>

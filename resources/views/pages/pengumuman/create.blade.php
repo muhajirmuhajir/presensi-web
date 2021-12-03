@@ -12,6 +12,7 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <form action="{{route('pengumuman.store')}}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        @role(config('enums.roles.teacher'))
                         <div>
                             <x-label for="course_id" :value="__('Kelas')" />
                             <x-select name="course_id" id="course_id" class="block mt-1 w-full" required autofocus>
@@ -20,6 +21,7 @@
                                 @endforeach
                             </x-select>
                         </div>
+                        @endrole
                         <div class="mt-4">
                             <x-label for="title" :value="__('Judul')" />
 
