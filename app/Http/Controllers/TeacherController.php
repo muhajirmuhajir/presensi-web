@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -77,7 +78,9 @@ class TeacherController extends Controller
      */
     public function edit($id)
     {
-        //
+        $teacher= User::findOrFail($id);
+
+        return view('pages.teacher.edit', compact('teacher'));
     }
 
     /**
@@ -89,7 +92,16 @@ class TeacherController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $fields = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone_number' => 'required'
+        ]);
+        $teacher= User::findOrFail($id);
+
+        $teacher->update($fields);
+
+        return redirect()->back();
     }
 
     /**
@@ -100,6 +112,12 @@ class TeacherController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $teacher= User::findOrFail($id);
+
+        $teacher->delete();
+
+        Course::where('teacher_id',$id)->update(['teacher_id' => null]);
+
+        return redirect()->route('teacher.index');
     }
 }
