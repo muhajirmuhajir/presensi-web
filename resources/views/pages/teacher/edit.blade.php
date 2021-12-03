@@ -21,7 +21,6 @@
 
                         <div class="mt-4">
                             <x-label for="email" :value="__('Email')" />
-
                             <x-input id="email" type="email" class="block mt-1 w-full" name="email"
                                 value="{{$teacher->email}}" required autofocus />
                         </div>
