@@ -31,6 +31,8 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
+Route::redirect('/dashboard', '/presensi', 301);
+
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('presensi', PresensiController::class);
     Route::resource('presensi.record', PresensiRecordController::class);
@@ -54,7 +56,7 @@ Route::post('user/activation/{token}', [UserController::class, 'verifiy'])->name
 
 Route::get('activation/success', [UserController::class, 'success'])->name('activation.success');
 
-Route::get('survey',function(){
+Route::get('survey', function () {
     return redirect('https://forms.gle/XyDFjvupJkNJa4eW9');
 });
 
