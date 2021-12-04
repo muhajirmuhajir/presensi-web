@@ -54,4 +54,9 @@ Route::post('user/activation/{token}', [UserController::class, 'verifiy'])->name
 
 Route::get('activation/success', [UserController::class, 'success'])->name('activation.success');
 
+Route::get('survey',function(){
+    return redirect('https://forms.gle/XyDFjvupJkNJa4eW9');
+});
+
+
 require __DIR__ . '/auth.php';
