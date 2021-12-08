@@ -40,7 +40,7 @@ class PengumumanController extends Controller
         $pengumuman =  Pengumuman::with('teacher')->findOrFail($id);
         $pengumuman->thumbnail = url(Storage::url($pengumuman->thumbnail_url));
         $pengumuman->content = $pengumuman->body;
-        $pengumuman->created_at = Carbon::parse($pengumuman->created_at)->isoFormat('DD/MM/Y');
+        $pengumuman->created_date = Carbon::parse($pengumuman->created_at)->isoFormat('d/m/Y HH:mm');
 
         return ApiResponse::success($pengumuman);
     }
