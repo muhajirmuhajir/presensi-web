@@ -6,6 +6,7 @@ use App\Models\Pengumuman;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 class PengumumanController extends Controller
@@ -39,6 +40,7 @@ class PengumumanController extends Controller
         $pengumuman =  Pengumuman::with('teacher')->findOrFail($id);
         $pengumuman->thumbnail = url(Storage::url($pengumuman->thumbnail_url));
         $pengumuman->content = $pengumuman->body;
+        $pengumuman->created_at = Carbon::parse($pengumuman->created_at)->isoFormat('DD/MM/Y');
 
         return ApiResponse::success($pengumuman);
     }
