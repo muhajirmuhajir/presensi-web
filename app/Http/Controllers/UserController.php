@@ -19,6 +19,7 @@ class UserController extends Controller
     {
         $fields = $request->validate([
             'name' => 'required|string',
+            'phone_number' => 'nullable|string'
         ]);
         $user = User::findOrFail(auth()->id());
         $user->update($fields);
