@@ -22,6 +22,13 @@
                                 required autofocus />
                         </div>
 
+                        <div class="mt-4">
+                            <x-label for="phone_number" :value="__('No Handphone')" />
+
+                            <x-input id="phone_number" class="block mt-1 w-full" type="text" name="phone_number"
+                                value="{{$user->phone_number}}" required autofocus />
+                        </div>
+
                         <!-- Email Address -->
                         <div class="mt-4">
                             <x-label for="email" :value="__('Email')" />
