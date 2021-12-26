@@ -83,8 +83,9 @@ class PresensiRecord extends Model
                 DB::raw("CONCAT(c.name, ' - ', k.name) as name"),
                 'p.topic as topic',
                 'presensi_records.status as status',
-                'u.name as teacher_name'
-            )->get();
+                'u.name as teacher_name',
+                'presensi_records.created_at',
+            )->latest()->get();
     }
 
     public static function getDetailPresensiByUserId($user_id, $id)
