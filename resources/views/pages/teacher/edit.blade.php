@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Buat Akun Guru') }}
+            {{ __('Edit Akun Guru') }}
         </h2>
     </x-slot>
 
@@ -10,7 +10,6 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg relative">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <x-validation-errors class="mb-4" :errors="$errors" />
-
                     <form action="{{route('teacher.update', $teacher)}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')

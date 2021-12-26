@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Daftar Presensi') }}
+                {{ __('List Presensi') }}
             </h2>
             @role(config('enums.roles.teacher'))
             <form action="{{route('presensi.create')}}">

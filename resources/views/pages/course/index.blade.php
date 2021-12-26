@@ -1,13 +1,17 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Kelas Saya') }}
-            </h2>
             @role(config('enums.roles.bk'))
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('List Mata Pelajaran') }}
+            </h2>
             <form action="{{route('course.create')}}">
                 <x-button>Buat Mata Pelajaran</x-button>
             </form>
+            @else
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Kelas Saya') }}
+            </h2>
             @endrole
         </div>
     </x-slot>

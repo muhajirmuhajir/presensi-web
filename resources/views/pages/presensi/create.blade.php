@@ -33,7 +33,7 @@
                                         :value="old('topic')" required autofocus />
                                 </div>
                                 <div class="mt-4">
-                                    <x-label for="question" :value="__('Pertanyaan Assesment')" />
+                                    <x-label for="question" :value="__('Pertanyaan Assesment (opsional)')" />
                                     <x-textarea name="question" id="question" cols="5" class="block mt-1 w-full">
                                     </x-textarea>
                                 </div>
