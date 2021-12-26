@@ -22,7 +22,11 @@
                                 <h4 class="text-lg"><a href="{{route('pengumuman.show', $item)}}">{{$item->title}}</a>
                                 </h4>
                                 <div class="flex justify-between">
-                                    <p class="text-sm text-gray-400 font-light">kelas .</p>
+                                    @if ($item->course)
+                                    <p class="text-sm text-gray-400 font-light">Kelas {{$item->course->fullName()}}</p>
+                                    @else
+                                    <p class="text-sm text-gray-400 font-light">Umum</p>
+                                    @endif
                                     @if (auth()->id() == $item->user_id)
                                     <a href="{{route('pengumuman.edit', $item)}}"
                                         class="text-sm text-gray-300 underline cursor-pointer">Edit</a>

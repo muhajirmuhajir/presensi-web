@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Kelas;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CourseController extends Controller
 {
@@ -47,6 +48,10 @@ class CourseController extends Controller
      */
     public function create()
     {
+        if(!Gate::allows('modif-course')){
+            abort(403);
+        }
+
         $teachers = User::whereHas('roles', function ($q) {
             $q->where('name', config('enums.roles.teacher'));
         })->get();
@@ -64,6 +69,10 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
+        if(!Gate::allows('modif-course')){
+            abort(403);
+        }
+
         $fields = $request->validate([
             'teacher_id' => 'required|exists:users,id',
             'kelas_id' => 'required|exists:kelas,id',
@@ -96,6 +105,10 @@ class CourseController extends Controller
      */
     public function edit(Course $course)
     {
+        if(!Gate::allows('modif-course')){
+            abort(403);
+        }
+
         $teachers = User::whereHas('roles', function ($q) {
             $q->where('name', config('enums.roles.teacher'));
         })->get();
@@ -114,6 +127,10 @@ class CourseController extends Controller
      */
     public function update(Request $request, Course $course)
     {
+        if(!Gate::allows('modif-course')){
+            abort(403);
+        }
+
         $fields = $request->validate([
             'teacher_id' => 'required|exists:users,id',
             'kelas_id' => 'required|exists:kelas,id',
@@ -133,6 +150,10 @@ class CourseController extends Controller
      */
     public function destroy(Course $course)
     {
+        if(!Gate::allows('modif-course')){
+            abort(403);
+        }
+
         $course->presensi()->delete();
         $course->delete();
 

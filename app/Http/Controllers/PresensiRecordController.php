@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Presensi;
-use App\Models\PresensiRecord;
 use Illuminate\Http\Request;
+use App\Models\PresensiRecord;
+use Illuminate\Support\Facades\Gate;
 
 class PresensiRecordController extends Controller
 {
@@ -47,6 +48,10 @@ class PresensiRecordController extends Controller
      */
     public function show(Presensi $presensi, $id)
     {
+        if(!Gate::allows('show-presensi', $presensi)){
+            abort(403);
+        }
+
         $record = PresensiRecord::with('student')->findOrFail($id);
         $presensi_status = PresensiRecord::STATUS_ARRAY;
         return view('pages.presensi.record.show', compact('presensi', 'record', 'presensi_status'));
@@ -72,6 +77,10 @@ class PresensiRecordController extends Controller
      */
     public function update(Request $request, Presensi $presensi, $id)
     {
+        if(!Gate::allows('show-presensi', $presensi)){
+            abort(403);
+        }
+
         $fields = $request->validate([
             'status' => 'required|string'
         ]);
@@ -91,6 +100,10 @@ class PresensiRecordController extends Controller
      */
     public function destroy(Presensi $presensi, $id)
     {
+        if(!Gate::allows('show-presensi', $presensi)){
+            abort(403);
+        }
+
         $record = PresensiRecord::findOrFail($id);
         $record->delete();
 
