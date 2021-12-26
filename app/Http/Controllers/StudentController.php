@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\UserCreateEvent;
-use App\Models\PresensiRecord;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\PresensiRecord;
+use App\Events\UserCreateEvent;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 
@@ -18,6 +19,10 @@ class StudentController extends Controller
      */
     public function index()
     {
+        if(!Gate::allows('modif-akun')){
+            abort(403);
+        }
+
         $data = User::with('kelas')->whereHas('roles', function ($q){
             $q->where('name', config('enums.roles.student') );
         })->latest()->paginate();
@@ -33,6 +38,10 @@ class StudentController extends Controller
      */
     public function create()
     {
+        if(!Gate::allows('modif-akun')){
+            abort(403);
+        }
+
         return view('pages.student.create');
     }
 
@@ -44,6 +53,10 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
+        if(!Gate::allows('modif-akun')){
+            abort(403);
+        }
+
         $fields = $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
@@ -74,7 +87,9 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        //
+        if(!Gate::allows('modif-akun')){
+            abort(403);
+        }
     }
 
     /**
@@ -85,6 +100,10 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
+        if(!Gate::allows('modif-akun')){
+            abort(403);
+        }
+
         $student = User::findOrFail($id);
 
         return view('pages.student.edit', compact('student'));
@@ -99,6 +118,10 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if(!Gate::allows('modif-akun')){
+            abort(403);
+        }
+
         $fields = $request->validate([
             'name' => 'required',
             'email' => 'required|email',
@@ -120,6 +143,10 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
+        if(!Gate::allows('modif-akun')){
+            abort(403);
+        }
+
         $student = User::findOrFail($id);
         $student->delete();
 

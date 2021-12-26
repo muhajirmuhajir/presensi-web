@@ -9,6 +9,7 @@ use App\Models\Presensi;
 use Illuminate\Http\Request;
 use App\Models\PresensiRecord;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class KelasController extends Controller
 {
@@ -19,6 +20,10 @@ class KelasController extends Controller
      */
     public function index()
     {
+        if(!Gate::allows('modif-kelas')){
+            abort(403);
+        }
+
         $data = Kelas::withCount('courses')->paginate();
 
         return view('pages.kelas.index', compact('data'));
@@ -31,6 +36,10 @@ class KelasController extends Controller
      */
     public function create()
     {
+        if(!Gate::allows('modif-kelas')){
+            abort(403);
+        }
+
         return view('pages.kelas.create');
     }
 
@@ -42,6 +51,10 @@ class KelasController extends Controller
      */
     public function store(Request $request)
     {
+        if(!Gate::allows('modif-kelas')){
+            abort(403);
+        }
+
         $request->validate(['name' => 'required']);
 
         Kelas::create(['name' => $request->name]);
@@ -57,6 +70,10 @@ class KelasController extends Controller
      */
     public function show($id)
     {
+        if(!Gate::allows('modif-kelas')){
+            abort(403);
+        }
+
         $kelas = Kelas::with('courses.teacher', 'students')->withCount('courses', 'students')->findOrFail($id);
 
         return view('pages.kelas.show', compact('kelas'));
@@ -70,6 +87,10 @@ class KelasController extends Controller
      */
     public function edit($id)
     {
+        if(!Gate::allows('modif-kelas')){
+            abort(403);
+        }
+
         $kelas = Kelas::findOrFail($id);
         return view('pages.kelas.edit', compact('kelas'));
     }
@@ -83,6 +104,10 @@ class KelasController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if(!Gate::allows('modif-kelas')){
+            abort(403);
+        }
+
         $kelas = Kelas::findOrFail($id);
 
         $request->validate([
@@ -102,6 +127,10 @@ class KelasController extends Controller
      */
     public function destroy($id)
     {
+        if(!Gate::allows('modif-kelas')){
+            abort(403);
+        }
+
         $kelas = Kelas::findOrFail($id);
 
         User::where('kelas_id', $id)->update(['kelas_id' => null]);

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PengumumanStoreRequest;
 use App\Models\Course;
 use App\Models\Pengumuman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
+use App\Http\Requests\PengumumanStoreRequest;
 
 class PengumumanController extends Controller
 {
@@ -17,7 +18,7 @@ class PengumumanController extends Controller
      */
     public function index()
     {
-        $data = Pengumuman::all();
+        $data = Pengumuman::with('course')->get();
 
         return view('pages.pengumuman.index', compact('data'));
     }
@@ -51,7 +52,7 @@ class PengumumanController extends Controller
             'title' => 'required|string',
             'body' => 'required|string',
             'thumbnail' => 'required|file|image|max:2048',
-            'course_id' => 'nullable'
+            'course_id' => 'nullable|exists:courses,id'
         ]);
 
         $thumbnail_url = $request->thumbnail->store('thumbnail','public');
@@ -88,6 +89,10 @@ class PengumumanController extends Controller
      */
     public function edit(Pengumuman $pengumuman)
     {
+        if(!Gate::allows('modif-pengumuman', $pengumuman)){
+            abort(403);
+        }
+
         $pengumuman->load('course');
 
         return view('pages.pengumuman.edit', compact('pengumuman'));
@@ -102,6 +107,10 @@ class PengumumanController extends Controller
      */
     public function update(Request $request, Pengumuman $pengumuman)
     {
+        if(!Gate::allows('modif-pengumuman', $pengumuman)){
+            abort(403);
+        }
+
         $fields  = $request->validate([
             'title' => 'required|string',
             'body' => 'required|string',
@@ -127,6 +136,10 @@ class PengumumanController extends Controller
      */
     public function destroy(Pengumuman $pengumuman)
     {
+        if(!Gate::allows('modif-pengumuman', $pengumuman)){
+            abort(403);
+        }
+
         $pengumuman->delete();
 
         return redirect()->route('pengumuman.index');

@@ -11,6 +11,7 @@ use App\Models\PresensiRecord;
 use App\Exports\PresensiExport;
 use Illuminate\Support\Facades\DB;
 use App\Events\PresensiCreatedEvent;
+use Illuminate\Support\Facades\Gate;
 
 class PresensiController extends Controller
 {
@@ -64,6 +65,10 @@ class PresensiController extends Controller
      */
     public function create()
     {
+        if(!Gate::allows('create-presensi')){
+            abort(403);
+        }
+
         $courses = Course::join('kelas as k', 'k.id', 'courses.kelas_id')
             ->where('courses.teacher_id', auth()->user()->id)
             ->select(
@@ -81,6 +86,10 @@ class PresensiController extends Controller
      */
     public function store(Request $request)
     {
+        if(!Gate::allows('create-presensi')){
+            abort(403);
+        }
+
         $fields = $request->validate([
             'course_id' => 'required|exists:courses,id',
             'topic' => 'required',
@@ -104,6 +113,10 @@ class PresensiController extends Controller
      */
     public function show(Presensi $presensi)
     {
+        if(!Gate::allows('show-presensi', $presensi)){
+            abort(403);
+        }
+
         $presensi->load('records.student', 'course');
         return view('pages.presensi.show', compact('presensi'));
     }
@@ -116,6 +129,10 @@ class PresensiController extends Controller
      */
     public function edit(Presensi $presensi)
     {
+        if(!Gate::allows('modif-presensi', $presensi)){
+            abort(403);
+        }
+
         $presensi->load('course');
 
         return view('pages.presensi.edit', compact('presensi'));
@@ -130,6 +147,10 @@ class PresensiController extends Controller
      */
     public function update(Request $request, Presensi $presensi)
     {
+        if(!Gate::allows('modif-presensi', $presensi)){
+            abort(403);
+        }
+
         $fields = $request->validate([
             'topic' => 'required|string',
             'question' => 'nullable|string',
@@ -150,6 +171,10 @@ class PresensiController extends Controller
      */
     public function destroy(Presensi $presensi)
     {
+        if(!Gate::allows('modif-presensi', $presensi)){
+            abort(403);
+        }
+
         $presensi->records()->delete();
         $presensi->delete();
 
@@ -158,7 +183,11 @@ class PresensiController extends Controller
 
     public function rekapPresensi(Request $request, $id)
     {
+
         $presensi = Presensi::findOrFail($id);
+        if(!Gate::allows('rekap-presensi', $presensi)){
+            abort(403);
+        }
         $kelas_name = $presensi->fullName();
         $filename = Str::upper(Str::slug($kelas_name)) .'_'. Carbon::parse($presensi->open_at)->isoFormat('D-MM-Y');
         return (new PresensiExport)->withId($id)->download($filename . '.xlsx');
