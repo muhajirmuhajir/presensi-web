@@ -127,7 +127,7 @@ class TeacherController extends Controller
 
         $teacher->update($fields);
 
-        return redirect()->back();
+        return redirect()->back()->with('message', 'Data berhasil diupdate');
     }
 
     /**
