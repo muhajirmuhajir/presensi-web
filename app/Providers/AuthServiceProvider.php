@@ -29,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('modif-pengumuman', function (User $user, Pengumuman $pengumuman) {
-            return $user->id === $pengumuman->user_id;
+            return $user->id == $pengumuman->user_id;
         });
 
         Gate::define('modif-kelas', function (User $user){
@@ -49,15 +49,15 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('show-presensi', function (User $user, Presensi $presensi){
-            return $user->hasRole(config('enums.roles.bk')) ||$user->id === $presensi->course->teacher_id;
+            return $user->hasRole(config('enums.roles.bk')) ||$user->id == $presensi->course->teacher_id;
         });
 
         Gate::define('rekap-presensi', function (User $user, Presensi $presensi){
-            return $user->hasRole(config('enums.roles.bk')) ||$user->id === $presensi->course->teacher_id;
+            return $user->hasRole(config('enums.roles.bk')) ||$user->id == $presensi->course->teacher_id;
         });
 
         Gate::define('modif-presensi', function (User $user, Presensi $presensi){
-            return $user->id === $presensi->course->teacher_id;
+            return $user->id == $presensi->course->teacher_id;
         });
     }
 }
