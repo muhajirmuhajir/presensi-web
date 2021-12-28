@@ -30,7 +30,7 @@
                     <tbody class="bg-white">
                         @foreach ($data as $i => $item)
                         <tr class="text-gray-700">
-                            <td class="px-4 py-3 border">{{$i+1}}</td>
+                            <td class="px-4 py-3 border">{{$data->firstItem() + $i}}</td>
                             <td class="px-4 py-3 text-ms font-semibold border">{{$item->kelas_name}}</td>
                             <td class="px-4 py-3 text-ms font-semibold border">{{$item->topic}}</td>
                             <td class="px-4 py-3 text-sm border">
