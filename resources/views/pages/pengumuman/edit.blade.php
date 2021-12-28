@@ -16,7 +16,7 @@
                         @method('PUT')
                         @csrf
                         <div>
-                            <x-label for="course_name" :value="__('Judul')" />
+                            <x-label for="course_name" :value="__('Kelas')" />
 
                             <x-input id="course_name" type="text" class="block mt-1 w-full cursor-not-allowed"
                                 name="course_name" value="{{$pengumuman->course->fullname()}}" required disabled />
