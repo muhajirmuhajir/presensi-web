@@ -132,7 +132,7 @@ class StudentController extends Controller
         $student = User::findOrFail($id);
         $student->update($fields);
 
-        return back();
+        return redirect()->back()->with('message', 'Data berhasil diupdate!');
     }
 
     /**

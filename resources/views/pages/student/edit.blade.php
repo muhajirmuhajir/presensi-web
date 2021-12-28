@@ -10,6 +10,11 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg relative">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <x-validation-errors class="mb-4" :errors="$errors" />
+                    @if(session()->has('message'))
+                    <div class="rounded p-4 bg-green-400 text-green-700">
+                        {{ session()->get('message') }}
+                    </div>
+                    @endif
                     <form action="{{route('student.update', $student)}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
