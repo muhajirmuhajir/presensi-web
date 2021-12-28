@@ -26,7 +26,7 @@
                             <x-select name="kelas_id" id="kelas_id" class="block mt-1 w-full" required autofocus>
                                 @foreach ($kelas as $item)
                                 @if ($course->kelas_id == $item->id)
-                                <option selected value="{{$item->id}}">{{$item->name . ' (Default)'}}</option>
+                                <option selected value="{{$item->id}}">{{$item->name . ' (Current)'}}</option>
                                 @else
                                 <option value="{{$item->id}}">{{$item->name}}</option>
                                 @endif

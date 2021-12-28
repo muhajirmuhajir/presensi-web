@@ -34,8 +34,7 @@
                         </div>
                         <div class="md:flex py-2">
                             <x-button>Buat Akun</x-button>
-                            <button type="reset" class="ml-10 underline text-sm text-gray-600 hover:text-gray-900"
-                                href="{{ route('login') }}">
+                            <button type="reset" class="ml-10 underline text-sm text-gray-600 hover:text-gray-900">
                                 {{ __('Batalkan') }}
                             </button>
                         </div>
