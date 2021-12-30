@@ -27,6 +27,6 @@ class AccountActivationEmail extends Mailable
     public function build()
     {
         $link = $this->link;
-        return $this->view('mail.account_activation',compact('link'));
+        return $this->subject('Aktivasi Akun')->view('mail.account_activation',compact('link'));
     }
 }

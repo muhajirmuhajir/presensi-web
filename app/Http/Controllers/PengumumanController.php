@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Course;
 use App\Models\Pengumuman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Gate;
+use App\Events\PengumumanCreatedEvent;
+use App\Jobs\SendPengumumanNotification;
 use App\Http\Requests\PengumumanStoreRequest;
 
 class PengumumanController extends Controller
@@ -57,13 +62,15 @@ class PengumumanController extends Controller
 
         $thumbnail_url = $request->thumbnail->store('thumbnail','public');
 
-        Pengumuman::create([
+        $pengumuman = Pengumuman::create([
             'course_id' => $request->course_id,
             'user_id' => auth()->user()->id,
             'title' => $request->title,
             'body' => $request->body,
             'thumbnail_url' => $thumbnail_url
         ]);
+
+        event(new PengumumanCreatedEvent($pengumuman));
 
         return redirect()->route('pengumuman.index');
 
@@ -143,5 +150,39 @@ class PengumumanController extends Controller
         $pengumuman->delete();
 
         return redirect()->route('pengumuman.index');
+    }
+
+    private function makeNotification($pengumuman)
+    {
+        $course_id = $pengumuman->course_id;
+
+        if($course_id){
+            $course =  Course::find($course_id);
+            if(!$course){
+                Log::error('course not found');
+                return;
+            }
+
+            $users = User::where('kelas_id', $course->kelas_id)->get();
+
+            $this->sendEmail($users, $pengumuman);
+
+        }else{
+            $users = User::whereHas('roles', function($q){
+                $q->where('name', config('enums.roles.student'));
+            })->get();
+
+            $this->sendEmail($users, $pengumuman);
+        }
+    }
+
+    private function sendEmail($users, $pengumuman)
+    {
+        $jobs = [];
+        foreach ($users as $user) {
+            $jobs[] = new SendPengumumanNotification($user, $pengumuman);
+        }
+
+        Bus::batch($jobs)->dispatch();
     }
 }
