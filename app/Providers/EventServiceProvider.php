@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\PengumumanCreatedEvent;
 use App\Events\PresensiCreatedEvent;
 use App\Events\UserCreateEvent;
 use Illuminate\Support\Facades\Event;
@@ -9,6 +10,7 @@ use Illuminate\Auth\Events\Registered;
 use App\Listeners\CreatePresensiRecord;
 use App\Listeners\SendEmailActivation;
 use App\Listeners\SendEmailVerificationNotification;
+use App\Listeners\SendPengumumanEmail;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -27,6 +29,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         UserCreateEvent::class => [
             SendEmailActivation::class
+        ],
+        PengumumanCreatedEvent::class => [
+            SendPengumumanEmail::class
         ],
     ];
 
