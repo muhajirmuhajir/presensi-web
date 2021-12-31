@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\RekapPresensiExport;
 use App\Models\User;
 use App\Models\Kelas;
 use App\Models\Course;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -157,5 +159,18 @@ class CourseController extends Controller
         $course->delete();
 
         return redirect()->route('course.index');
+    }
+
+    public function rekapPresensi(Request $request, $id)
+    {
+
+        $course = Course::findOrFail($id);
+        if(!Gate::allows('modif-course')){
+            abort(403);
+        }
+
+        $kelas_name = $course->fullName();
+        $filename = 'Rekap '.Str::upper(Str::slug($kelas_name));
+        return (new RekapPresensiExport)->withCourseId($id)->download($filename . '.xlsx');
     }
 }
