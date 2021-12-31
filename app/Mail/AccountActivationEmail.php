@@ -13,10 +13,12 @@ class AccountActivationEmail extends Mailable
 
 
     public $link;
+    public $user;
 
-    public function __construct($link)
+    public function __construct($link, $user)
     {
         $this->link = $link;
+        $this->user = $user;
     }
 
     /**
@@ -27,6 +29,7 @@ class AccountActivationEmail extends Mailable
     public function build()
     {
         $link = $this->link;
-        return $this->subject('Aktivasi Akun')->view('mail.account_activation',compact('link'));
+        $user = $this->user;
+        return $this->subject('Aktivasi Akun')->view('mail.account_activation',compact('link', 'user'));
     }
 }
