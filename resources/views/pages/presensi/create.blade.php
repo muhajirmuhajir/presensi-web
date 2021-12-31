@@ -51,13 +51,16 @@
                                     <x-label for="open_date" :value="__('Jam Buka')" />
 
                                     <x-input id="open_date" type="datetime-local" class="block mt-1 w-full"
-                                        name="open_date" :value="old('open_date')" required autofocus />
+                                        name="open_date" :value="old('open_date') ?? now()->format('Y-m-d\TH:i')"
+                                        required autofocus />
                                 </div>
                                 <div class="mt-4">
                                     <x-label for="close_date" :value="__('Jam Tutup')" />
 
                                     <x-input id="close_date" type="datetime-local" class="block mt-1 w-full"
-                                        name="close_date" :value="old('close_date')" required autofocus />
+                                        name="close_date"
+                                        :value="old('close_date') ?? now()->addHour(1)->format('Y-m-d\TH:i')" required
+                                        autofocus />
                                 </div>
                             </div>
                         </div>
