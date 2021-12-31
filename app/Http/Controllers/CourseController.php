@@ -92,8 +92,7 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        $course->load('kelas', 'presensi','teacher')->loadCount('students');
-
+        $course->load('kelas.students', 'presensi','teacher');
         return view('pages.course.show', compact('course'));
     }
 
