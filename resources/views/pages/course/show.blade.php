@@ -45,8 +45,12 @@
                     </div>
                     @endrole
                     <hr>
-                    <h3 class="text-xl mt-6">Riwayat Presensi</h3>
-
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xl mt-6">Riwayat Presensi</h3>
+                        @role(config('enums.roles.bk'))
+                        <x-button-link href="{{route('course.rekap',$course->id)}}">Download Rekap</x-button-link>
+                        @endrole
+                    </div>
                     <section class="container mx-auto py-12">
                         <div class="w-full mb-8 overflow-hidden rounded-sm shadow-lg">
                             <div class="w-full">

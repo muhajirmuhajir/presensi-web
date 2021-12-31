@@ -2,7 +2,8 @@
     <thead>
         <tr>
             <th>No</th>
-            <th>Name</th>
+            <th>Nis</th>
+            <th>Nama</th>
             <th>Status</th>
         </tr>
     </thead>
@@ -10,8 +11,9 @@
         @foreach($data as $i => $item)
         <tr>
             <td>{{$i+1}}</td>
+            <td>{{$item->student->identity_number}}</td>
             <td>{{ $item->student->name }}</td>
-            <td>{{ $item->status }}</td>
+            <td>{{ $item->statusPresensi() }}</td>
         </tr>
         @endforeach
     </tbody>

@@ -46,6 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('kelas/{id}/student/{student_id}', [KelasController::class, 'destroyStudent'])->name('kelas.student.destroy');
 
     Route::get('presensi/{id}/rekap', [PresensiController::class, 'rekapPresensi'])->name('presensi.rekap');
+    Route::get('course/{id}/rekap', [CourseController::class, 'rekapPresensi'])->name('course.rekap');
 
     Route::get('profile', [UserController::class, 'show'])->name('profile.show');
     Route::put('profile', [UserController::class, 'update'])->name('profile.update');
