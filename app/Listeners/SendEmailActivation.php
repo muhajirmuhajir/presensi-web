@@ -19,7 +19,7 @@ class SendEmailActivation
 
         $link = $this->createLinkActivation($user);
 
-        Mail::to($user)->send(new AccountActivationEmail($link));
+        Mail::to($user)->send(new AccountActivationEmail($link, $user));
 
     }
 

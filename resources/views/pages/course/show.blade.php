@@ -31,7 +31,7 @@
                     <div class="mt-4">
                         <x-label for="topic" :value="__('Jumlah Siswa')" />
                         <x-input id="topic" type="text" class="block mt-1 w-full" name="topic"
-                            value="{{$course->students_count}}" disabled />
+                            value="{{$course->kelas->students->count()}}" disabled />
                     </div>
                     @role(config('enums.roles.bk'))
                     <div class="my-4 flex gap-4 items-center">

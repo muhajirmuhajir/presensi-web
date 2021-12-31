@@ -23,7 +23,19 @@ class PengumumanController extends Controller
      */
     public function index()
     {
-        $data = Pengumuman::with('course')->get();
+        $data = [];
+        if(auth()->user()->hasRole(config('enums.roles.teacher')) || auth()->user()->hasRole(config('enums.roles.bk'))){
+            $data = Pengumuman::with('course')
+            ->where('user_id', auth()->user()->id)->get();
+        }else{
+            $kelas_id = User::find( auth()->user()->id)->kelas_id;
+            if($kelas_id){
+                $data = Pengumuman::whereIn('course_id', function($query) use($kelas_id) {
+                    $query->select('id')->from('courses')
+                    ->where('kelas_id', $kelas_id);
+                })->get();
+            }
+        }
 
         return view('pages.pengumuman.index', compact('data'));
     }
@@ -70,6 +82,7 @@ class PengumumanController extends Controller
             'thumbnail_url' => $thumbnail_url
         ]);
 
+        $pengumuman->load(['teacher', 'course']);
         event(new PengumumanCreatedEvent($pengumuman));
 
         return redirect()->route('pengumuman.index');
