@@ -100,7 +100,7 @@
                                             </td>
                                             <td class="px-4 py-3 text-ms font-semibold border">
                                                 <div class="flex gap-4">
-                                                    <a href="{{route('student.show', $item)}}">Detail</a>
+                                                    {{-- <a href="{{route('student.show', $item)}}">Detail</a> --}}
                                                     <form action="{{route('kelas.student.destroy',[$kelas,$item])}}"
                                                         method="post">
                                                         @csrf

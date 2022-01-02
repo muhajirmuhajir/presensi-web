@@ -33,6 +33,10 @@ class AuthController extends Controller
                 throw new Exception("User has been suspended");
             }
 
+            if(!$user->hasRole(config('enums.roles.student'))){
+                throw new Exception("User is not authorized");
+            }
+
             $token = $user->createToken('mobile_token')->plainTextToken;
 
             return ApiResponse::success(['token' => $token]);
