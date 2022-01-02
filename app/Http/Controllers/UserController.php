@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Rules\CurrentPassword;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -24,7 +25,7 @@ class UserController extends Controller
         $user = User::findOrFail(auth()->id());
         $user->update($fields);
 
-        return redirect()->route('dashboard');
+        return redirect()->back()->with('success', 'Profile berhasil disimpan');
     }
 
     public function activate(Request $request, $token)
@@ -42,7 +43,7 @@ class UserController extends Controller
     {
         $request->validate(
             [
-                'password' =>'required|confirmed'
+                'password' =>'required|confirmed|min:6'
             ]
         );
 
@@ -70,5 +71,23 @@ class UserController extends Controller
     public function success()
     {
         return view('pages.user.activation_success');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate(
+            [
+                'current_password' =>['required', new CurrentPassword()],
+                'new_password' =>'required|confirmed|min:6'
+            ]
+        );
+
+        $user = User::findOrFail(auth()->id());
+
+        $user->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        return redirect()->back()->with('success', 'Password berhasil disimpan');
     }
 }

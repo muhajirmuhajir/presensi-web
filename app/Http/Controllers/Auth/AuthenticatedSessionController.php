@@ -30,6 +30,10 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
+        if(auth()->user()->hasRole(config('enums.roles.student'))){
+            Auth::logout();
+            return redirect()->back()->with('validate', 'User is not authorized');
+        }
         $request->session()->regenerate();
 
         return redirect()->intended(RouteServiceProvider::HOME);
