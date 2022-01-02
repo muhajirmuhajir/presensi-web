@@ -24,9 +24,13 @@ class AuthController extends Controller
             $user = User::where('email', $request->email)->firstOrFail();
 
             if(!Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-                throw ValidationException::withMessages([
-                    'email' => __('auth.failed'),
-                ]);
+                throw new Exception("email or password is incorrect");
+            }
+
+            if($user->opening_status == User::STATUS_REGISTERED){
+                throw new Exception("User must be activated");
+            }else if($user->opening_status == User::STATUS_SUSPENDED){
+                throw new Exception("User has been suspended");
             }
 
             $token = $user->createToken('mobile_token')->plainTextToken;
@@ -34,9 +38,7 @@ class AuthController extends Controller
             return ApiResponse::success(['token' => $token]);
 
         } catch (Exception $e) {
-
-            return ApiResponse::error($e->getMessage());
-
+            return ApiResponse::error($e->getMessage(), 403);
         }
     }
 

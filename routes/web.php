@@ -33,7 +33,7 @@ Route::get('/dashboard', function () {
 
 Route::redirect('/dashboard', '/presensi', 301);
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', 'activated']], function () {
     Route::resource('presensi', PresensiController::class);
     Route::resource('presensi.record', PresensiRecordController::class);
     Route::resource('course', CourseController::class);

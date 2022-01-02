@@ -167,7 +167,7 @@ class KelasController extends Controller
 
         $kelas = Kelas::findOrFail($id);
 
-        User::findOrFail($request->student_id)->update(['kelas_id' => $kelas->id]);
+        User::findOrFail($request->student_id)->update(['kelas_id' => $kelas->id, 'opening_status' => User::STATUS_ACTIVATED]);
 
         return redirect()->back();
     }
@@ -175,7 +175,7 @@ class KelasController extends Controller
     public function destroyStudent($id, $student_id)
     {
         $student = User::findOrFail($student_id);
-        $student->update(['kelas_id' => null]);
+        $student->update(['kelas_id' => null, 'opening_status' => User::STATUS_SUSPENDED]);
 
         return redirect()->back();
     }
