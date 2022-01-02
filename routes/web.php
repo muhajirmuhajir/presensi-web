@@ -50,6 +50,8 @@ Route::group(['middleware' => ['auth', 'activated']], function () {
 
     Route::get('profile', [UserController::class, 'show'])->name('profile.show');
     Route::put('profile', [UserController::class, 'update'])->name('profile.update');
+
+    Route::post('user/password', [UserController::class, 'updatePassword'])->name('account.password');
 });
 
 Route::get('user/activation/{token}', [UserController::class, 'activate'])->name('account.activate');
