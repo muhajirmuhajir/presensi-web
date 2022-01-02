@@ -31,9 +31,10 @@
                         </div>
                         <div class="md:flex py-2">
                             <x-button>Tambah Siswa</x-button>
-                            <button type="reset" class="ml-10 underline text-sm text-gray-600 hover:text-gray-900">
-                                {{ __('Batalkan') }}
-                            </button>
+                            <a href="{{route('kelas.show', $kelas->id)}}"
+                                class="ml-10 underline text-sm text-gray-600 hover:text-gray-900">
+                                {{ __('Kembali') }}
+                            </a>
                         </div>
 
                     </form>
