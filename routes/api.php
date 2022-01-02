@@ -25,15 +25,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('logout', [AuthController::class, 'logout']);
 
-Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'presensi'], function(){
+Route::group(['middleware' => ['auth:sanctum', 'activated'], 'prefix' => 'presensi'], function(){
     Route::get('/', [PresensiController::class, 'index']);
     Route::get('/{id}', [PresensiController::class, 'show']);
     Route::post('/{id}/record', [PresensiController::class, 'record']);
 });
 
-Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'pengumuman'], function(){
+Route::group(['middleware' => ['auth:sanctum', 'activated'], 'prefix' => 'pengumuman'], function(){
     Route::get('/', [PengumumanController::class, 'index']);
     Route::get('/{id}', [PengumumanController::class, 'show']);
 });
 
-Route::middleware('auth:sanctum')->get('user/info', [UserController::class, 'info']);
+Route::middleware(['auth:sanctum', 'activated'])->get('user/info', [UserController::class, 'info']);

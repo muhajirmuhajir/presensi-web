@@ -70,14 +70,13 @@ class PresensiRecord extends Model
     }
 
 
-    public static function getListPresensiByUserId($user_id)
+    public static function getListPresensiByUserId($user_id, $with_archive)
     {
-        return self::join('presensis as p', 'p.id', 'presensi_records.presensi_id')
+        $query = self::join('presensis as p', 'p.id', 'presensi_records.presensi_id')
             ->join('courses as c', 'c.id', 'p.course_id')
             ->join('users as u', 'u.id', 'c.teacher_id')
             ->join('kelas as k', 'k.id', 'c.kelas_id')
             ->where('presensi_records.student_id', $user_id)
-            ->where('close_date', '>', Carbon::now())
             ->select(
                 'presensi_records.id as id',
                 DB::raw("CONCAT(c.name, ' - ', k.name) as name"),
@@ -85,7 +84,12 @@ class PresensiRecord extends Model
                 'presensi_records.status as status',
                 'u.name as teacher_name',
                 'presensi_records.created_at',
-            )->latest()->get();
+            );
+        if(!$with_archive){
+            $query->where('close_date', '>', Carbon::now());
+        }
+
+        return $query->latest()->get();
     }
 
     public static function getDetailPresensiByUserId($user_id, $id)

@@ -12,9 +12,10 @@ class PresensiController extends Controller
 {
     public function index(Request $request)
     {
+        $with_archive = $request->input('all', false);
         $user_id = auth()->id();
 
-        $presensi_records = PresensiRecord::getListPresensiByUserId($user_id);
+        $presensi_records = PresensiRecord::getListPresensiByUserId($user_id,$with_archive);
 
         return ApiResponse::success($presensi_records);
     }

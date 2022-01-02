@@ -49,12 +49,17 @@ class UserController extends Controller
         $user = User::where('activation_token', $token)->firstOrFail();
 
         if($user){
+            $opening_status = User::STATUS_ACTIVATED;
+            if($user->hasRole(config('enums.roles.student')) && $user->kelas_id == null){
+                $opening_status = User::STATUS_SUSPENDED;
+            }
+
             $user->update(
                 [
                     'password' => Hash::make($request->password),
                     'activation_expired_at' => null,
                     'activation_token' => null,
-                    'opening_status' => User::STATUS_ACTIVATED
+                    'opening_status' => $opening_status
                 ]
             );
         }
