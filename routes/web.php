@@ -28,7 +28,7 @@ use App\Http\Controllers\PresensiRecordController;
 Route::redirect('/', '/login', 301);
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return redirect()->route('presensi.index');
 })->middleware(['auth'])->name('dashboard');
 
 Route::redirect('/dashboard', '/presensi', 301);
