@@ -78,6 +78,9 @@
                                             class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-200 uppercase border-b border-gray-600">
                                             <th class="px-4 py-3">No</th>
                                             <th class="px-4 py-3">Nama Siswa</th>
+                                            @if ($presensi->question)
+                                            <th class="px-4 py-3">Jawaban</th>
+                                            @endif
                                             <th class="px-4 py-3">Status</th>
                                             <th class="px-4 py-3">Action</th>
                                         </tr>
@@ -89,6 +92,9 @@
                                             <td class="px-4 py-3 text-ms font-semibold border">
                                                 {{$item->student->name ?? '-'}}
                                             </td>
+                                            @if ($presensi->question)
+                                            <td class="px-4 py-3 text-sm border">{{$item->answer??'-'}}</td>
+                                            @endif
                                             <td class="px-4 py-3 text-ms font-semibold border">
                                                 {{$item->statusPresensi()}}</td>
                                             <td class="px-4 py-3 text-sm border">
