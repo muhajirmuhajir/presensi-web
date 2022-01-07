@@ -22,6 +22,14 @@
                             <x-input id="name" type="text" class="block mt-1 w-full" name="name"
                                 value="{{$record->student->name ?? '-'}}" required autofocus disabled />
                         </div>
+                        @if ($presensi->question)
+                        <div class="mt-4">
+                            <x-label for="question" :value="__('Jawaban Assesment')" />
+                            <x-textarea name="question" id="question" cols="5" class="block mt-1 w-full" autofocus
+                                disabled>{{$record->answer??'-'}}
+                            </x-textarea>
+                        </div>
+                        @endif
                         <div class="mt-4">
                             <x-label for="status" :value="__('Status Presensi')" />
                             <x-select id="status" class="w-full" name="status" required>
